@@ -15,4 +15,12 @@ class Order extends Model
         'total_amount',
         'order_status'
     ];
+    public function customers()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_defails', 'order_id', 'product_id');
+    }
 }

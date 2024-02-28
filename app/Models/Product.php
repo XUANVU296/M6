@@ -18,4 +18,12 @@ class Product extends Model
         'status',
         'category_id'
     ];
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_defails', 'product_id', 'order_id');
+    }
 }

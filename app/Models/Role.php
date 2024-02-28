@@ -13,4 +13,8 @@ class Role extends Model
         'name',
         'group_name'
     ];
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_roles', 'role_id', 'group_id');
+    }
 }
