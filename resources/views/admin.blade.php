@@ -49,7 +49,7 @@
 
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-       @include('admin.includes.footer')
+       <!-- @include('admin.includes.footer') -->
         <!-- partial -->
       <!-- main-panel ends -->
     </div>
