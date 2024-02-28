@@ -17,5 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('index');
 // });
 Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+Route::resource('products', \App\Http\Controllers\ProductController::class);
+
 
 
