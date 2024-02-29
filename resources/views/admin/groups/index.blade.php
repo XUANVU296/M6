@@ -30,6 +30,24 @@
             background-color: #0056b3;
         }
     </style>
+    <script>
+        @if (session('successMessage'))
+            Swal.fire({
+                icon: 'success',
+                text: '{{ session('successMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
+    <script>
+        @if (session('errorMessage'))
+            Swal.fire({
+                icon: 'error',
+                text: '{{ session('errorMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
 
     <div class="main-panel">
         <div class="content-wrapper">
@@ -38,14 +56,6 @@
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('groups.create') }}" class="card-title">Thêm quyền</a>
-                            <form action="{{ route('groups.index') }}" method="GET">
-                                <div class="mb-8 input-container">
-                                    <div class="search-input">
-                                        <input type="search" name="search_name" placeholder="Vui lòng nhập tên">
-                                        <input type="submit" value="Tìm kiếm">
-                                    </div>
-                                </div>
-                            </form>
                             <table class="table table-striped table-responsive-lg">
                                 <thead>
                                     <tr>
@@ -53,7 +63,7 @@
                                             STT
                                         </th>
                                         <th>
-                                            Tên
+                                            Chức vụ
                                         </th>
                                         <th>
                                             Thao tác

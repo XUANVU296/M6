@@ -86,8 +86,15 @@
             background-color: #f8f9fa;
             /* Change background color on hover */
         }
+
+        .col {
+            padding: 50px;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
     </style>
-     <script>
+    <script>
         @if (session('successMessage'))
             Swal.fire({
                 icon: 'success',
@@ -114,20 +121,21 @@
                         <div class="card-body">
                             <a href="{{ route('customers.create') }}" class="card-title">Thêm mới</a>
                             <p class="card-description">
-                            <form action="{{ route('customers.index') }}" method="GET">
-                                <div class="mb-12 input-container">
-                                    <div class="mb-4">
-                                        <input type="search" name="search_name" placeholder="Vui lòng nhập tên">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="search" name="search_email" placeholder="Vui lòng nhập email">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="search" name="search_phone" placeholder="Vui lòng nhập SĐT">
-                                    </div>
-                                    <div class="mb-2">
-                                        <input type="submit" value="Tìm">
-                                    </div>
+                            <form action="{{ route('customers.index') }}" method="GET" id="form-search" class="d-flex">
+                                <div class="col">
+                                    <input name="search_name" class="form-control" type="text" placeholder="Tìm tên"
+                                        value="{{ request('search_name') }}" />
+                                </div>
+                                <div class="col">
+                                    <input name="search_email" class="form-control" type="text" placeholder="Tìm email"
+                                        value="{{ request('search_email') }}" />
+                                </div>
+                                <div class="col">
+                                    <input name="search_phone" class="form-control" type="text" placeholder="Tìm SĐT"
+                                        value="{{ request('search_phone') }}" />
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-secondary" type="submit">Tìm kiếm</button>
                                 </div>
                             </form>
                             </p>
