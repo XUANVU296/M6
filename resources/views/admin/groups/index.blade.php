@@ -1,149 +1,152 @@
 @extends('admin')
+
 @section('content')
-<main class="page-content">
-    <div class="container">
-        <section class="wrapper">
-            <div class="table-agile-info">
-                <div class="panel-panel-default">
-                    <header class="page-title-bar">
 
-                    </header>
-                    <hr>
-                    <div class="panel-heading">
-                        <h2 class="offset-4">Danh Sách Nhóm Nhân Viên</h2>
-                    </div>
-                    <nav aria-label="breadcrumb">
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
 
-                        <a href="{{route('groups.create')}}" class="btn btn-success">Tạo nhóm nhân viên</a>
-                        @if (session('success') || session('error'))
-                        <div class="card-header pt-2 pb-0">
-                            @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if (session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
-                            </div>
-                            @endif
-                        </div>
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
                         <script>
-                            setTimeout(function() {
-                                document.querySelectorAll('.alert').forEach(function(alert) {
-                                    alert.style.display = 'none';
-                                });
-                            }, 2000); // Thời gian trễ 2 giây (2000ms)
+                            @if(session('successMessage'))
+                            Swal.fire({
+                                icon: 'success',
+                                text: '{{ session('
+                                successMessage ') }}',
+                                confirmButtonText: 'Đóng'
+                            });
+                            @endif
                         </script>
-                        @endif
-                    </nav>
-                    <div>
-                        <table class="table" ui-jq="footable" ui-options='{
-    "paging": {
-      "enabled": true
-    },
-    "filtering": {
-      "enabled": true
-    },
-    "sorting": {
-      "enabled": true
-    }}'>
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên</th>
-                                    <th>Người đảm nhận</th>
-                                    <th data-breakpoints="xs">Tùy Chỉnh</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myTable">
-                                @foreach ($groups as $key => $group)
-                                <tr data-expanded="true" class="item-{{ $group->id }}">
-                                    <td>{{ $key + 1 }}</td>
+                        <script>
+                            @if(session('errorMessage'))
+                            Swal.fire({
+                                icon: 'error',
+                                text: '{{ session('
+                                errorMessage ') }}',
+                                confirmButtonText: 'Đóng'
+                            });
+                            @endif
+                        </script>
+                        <div class="panel-heading">
+                            <h2 class="offset-4">Danh Sách Nhóm Nhân Viên</h2>
+                        </div>
+                        <a href="{{route('groups.create')}}" class="card-title">Tạo mới nhóm nhân viên</a>
+                        <p class="card-description">
+                        </p>
+                        <div class="table-responsive">
 
-                                    <td>{{ $group->name }} </td>
-                                    <td>Hiện có {{ $group->users()->count() }} người</td>
-                                    <td>
-                                        <form action="" method="POST">
-                                            @csrf
-                                            @method('PUT')
+                            <table class="table table-striped table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            STT
+                                        </th>
+                                        <th>
+                                            Tên
+                                        </th>
+                                        <th>
+                                            Người đảm nhận
+                                        </th>
+                                        <th>
+                                            Thao tác
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($groups as $key => $group)
+                                    <tr>
+                                        <!-- <td class="py-1">
+                                            <img src="../../images/faces/face1.jpg" alt="image" />
+                                        </td> -->
+                                        <td>
+                                            {{ $key + 1 }}
+                                        </td>
+                                        <td>
+                                            {{ $group->name }}
+                                        </td>
+                                        <td>Hiện có {{ count($group->users) }} người</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="{{route('categories.edit' , $category->id)}}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
+                                                    </form>
 
-                                            <a class="btn btn-primary " href="{{route('group.detail', $group->id)}}">Trao Quyền</a>
+                                                    <form method="POST" action="{{route('categories.destroy' ,$category->id)}}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="dropdown-item" onclick="return confirm('Bạn có muốn xóa ?')"><i class="bx bx-trash me-1"></i> Xóa</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                </ <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js">
+                                </script>
+                                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+                                <script>
+                                    @php
+                                    if (Session::has('addgroup')) {
+                                        @endphp
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Tạo quyền xong rồi nhé!',
+                                            text: "Cấp quyền ngay nhé",
+                                            showClass: {
+                                                popup: 'swal2-show'
+                                            }
+                                        })
+                                        @php
+                                    }
+                                    @endphp
+                                </script>
+                                <script>
+                                    $(document).on('click', '.deleteIcon', function(e) {
+                                        // e.preventDefault();
+                                        let id = $(this).attr('id');
+                                        let href = $(this).data('href');
+                                        let csrf = '{{ csrf_token() }}';
+                                        console.log(id);
+                                        Swal.fire({
+                                            title: 'Bạn có chắc không?',
+                                            text: "Bạn sẽ không thể hoàn nguyên điều này!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Có, xóa!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    url: href,
+                                                    method: 'delete',
+                                                    data: {
+                                                        _token: csrf
+                                                    },
+                                                    success: function(res) {
+                                                        Swal.fire(
+                                                            'Deleted!',
+                                                            'Tệp của bạn đã bị xóa!',
+                                                            'success'
+                                                        )
+                                                        $('.item-' + id).remove();
+                                                    }
 
-                                            <a href="{{route('groups.edit', $group->id)}}" class="btn btn-warning">Sửa</a>
-
-                                            <a data-href="{{route('groups.destroy' , $group->id)}}" id="{{ $group->id }}" class="btn btn-danger sm deleteIcon">Xóa</a>
-
-
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $groups->appends(request()->query()) }}
+                                                });
+                                            }
+                                        })
+                                    });
+                                </script>table>
+                        </div>
                     </div>
                 </div>
-        </section>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-        {{-- <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js'></script> --}}
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <script>
-            @php
-            if (Session::has('addgroup')) {
-                @endphp
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Tạo quyền xong rồi nhé!',
-                    text: "Cấp quyền ngay nhé",
-                    showClass: {
-                        popup: 'swal2-show'
-                    }
-                })
-                @php
-            }
-            @endphp
-        </script>
-        <script>
-            $(document).on('click', '.deleteIcon', function(e) {
-                // e.preventDefault();
-                let id = $(this).attr('id');
-                let href = $(this).data('href');
-                let csrf = '{{ csrf_token() }}';
-                console.log(id);
-                Swal.fire({
-                    title: 'Bạn có chắc không?',
-                    text: "Bạn sẽ không thể hoàn nguyên điều này!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Có, xóa!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: href,
-                            method: 'delete',
-                            data: {
-                                _token: csrf
-                            },
-                            success: function(res) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Tệp của bạn đã bị xóa!',
-                                    'success'
-                                )
-                                $('.item-' + id).remove();
-                            }
-
-                        });
-                    }
-                })
-            });
-        </script>
+            </div>
+        </div>
     </div>
-</main>
+</div>
 @endsection
