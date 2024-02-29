@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCustomerRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,20 +23,20 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' =>'required|email|unique:customers,email',
-            'phone' =>'required|numeric|unique:customers',
+            'email' =>'required|email|unique:customers,email,'.$this->customer.'',
+            'phone' =>'required|numeric|unique:customers,phone,'.$this->customer.''
         ];
     }
     public function messages(): array
     {
         return [
-            'name.required' => 'Tên khác hàng không được để trống',
-            'email.required' => 'Email khách hàng không được không được để trống',
+            'name.required' => 'Tên khách hàng không được để trống',
+            'email.required' => 'Email khách hàng không được để trống',
             'email.email' => 'Email không đúng định dạng',
             'email.unique' => 'Email này đã tồn tại trên hệ thống',
             'phone.required' => 'Số điện thoại khách hàng không được để trống',
             'phone.numeric' => 'Bắt buộc phải nhập số',
-            'phone.unique' => 'Số điện thoại này đã tồn tại trên hệ thống',
+            'phone.unique' => 'Số điện thoại này đã tồn tại trên hệ thống'
         ];
     }
 }

@@ -26,16 +26,25 @@
                                     <input type="text" class="form-control" id="exampleInputUsername1" name="name"
                                         value="{{ $item->name }}">
                                 </div>
+                                @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email</label>
                                     <input type="email" class="form-control" id="exampleInputEmail1" name="email"
                                         value="{{ $item->email }}">
                                 </div>
+                                @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <div class="form-group">
                                     <label for="exampleInputPhone1">Số điện thoại</label>
                                     <input type="text" class="form-control" id="exampleInputPhone1" name="phone"
                                         value="{{ $item->phone }}">
                                 </div>
+                                @error('phone')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <button type="submit" class="btn btn-secondary me-2">Cập nhật</button>
                                 <a href="{{ route('customers.index') }}" class="btn btn-light">Trở về</a>
                             </form>
