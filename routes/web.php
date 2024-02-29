@@ -18,5 +18,6 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 Route::resource('customers', \App\Http\Controllers\CustomerController::class);
+Route::resource('products', \App\Http\Controllers\ProductController::class);
 
 
