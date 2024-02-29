@@ -179,5 +179,10 @@
                 </div>
             </div>
         </div>
+        <div class="card-footer">
+            <nav class="float-right">
+                {{ $customers->appends(request()->query())->links('pagination::bootstrap-5') }}
+            </nav>
+        </div>
     </div>
 @endsection

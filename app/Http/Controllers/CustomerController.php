@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
 
 class CustomerController extends Controller
 {
@@ -27,7 +28,7 @@ class CustomerController extends Controller
             }
         });
     }
-    $customers = $query->paginate(4);
+    $customers = $query->paginate(3);
     return view('admin.customers.index', compact('customers'));
 }
 public function create()
@@ -63,7 +64,7 @@ public function edit($id)
             return redirect()->route('customers.index')->with('error', __('sys.item_not_found'));
         }
     }
-    public function update(StoreCustomerRequest $request, $id)
+    public function update(UpdateCustomerRequest $request, $id)
     {
         try {
             $item = Customer::findOrFail($id);

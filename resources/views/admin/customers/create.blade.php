@@ -9,7 +9,6 @@
             transform: translate(-50%, -50%);
         }
     </style>
-
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
@@ -30,7 +29,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Email</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1"
-                                        placeholder="Nhập tên" name="email">
+                                        placeholder="Nhập email" name="email">
                                 </div>
                                 @error('email')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -38,7 +37,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Số điện thoại</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1"
-                                        placeholder="Nhập tên" name="phone">
+                                        placeholder="Nhập số điện thoại" name="phone">
                                 </div>
                                 @error('phone')
                                     <div class="alert alert-danger">{{ $message }}</div>
