@@ -9,13 +9,31 @@
             transform: translate(-50%, -50%);
         }
     </style>
+     <script>
+        @if (session('successMessage'))
+            Swal.fire({
+                icon: 'success',
+                text: '{{ session('successMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
+    <script>
+        @if (session('errorMessage'))
+            Swal.fire({
+                icon: 'error',
+                text: '{{ session('errorMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
                 <div class="col-md-6 grid-margin stretch-card center-form">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Thêm mới</h4>
+                            <h4 class="card-title">Thêm mới khách hàng</h4>
                             <form action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">

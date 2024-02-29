@@ -87,6 +87,24 @@
             /* Change background color on hover */
         }
     </style>
+     <script>
+        @if (session('successMessage'))
+            Swal.fire({
+                icon: 'success',
+                text: '{{ session('successMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
+    <script>
+        @if (session('errorMessage'))
+            Swal.fire({
+                icon: 'error',
+                text: '{{ session('errorMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
 
     <div class="main-panel">
         <div class="content-wrapper">
@@ -108,7 +126,7 @@
                                         <input type="search" name="search_phone" placeholder="Vui lòng nhập SĐT">
                                     </div>
                                     <div class="mb-2">
-                                        <input type="submit" value="Submit">
+                                        <input type="submit" value="Tìm">
                                     </div>
                                 </div>
                             </form>
@@ -157,9 +175,6 @@
                                                         <a class="dropdown-item"
                                                             href="{{ route('customers.edit', $customer->id) }}"><i
                                                                 class="bx bx-edit-alt me-1"></i> Sửa</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('customers.show', $customer->id) }}"><i
-                                                                class="bx bx-edit-alt me-1"></i> Xem</a>
                                                         <form method="POST"
                                                             action="{{ route('customers.destroy', $customer->id) }}">
                                                             @csrf
