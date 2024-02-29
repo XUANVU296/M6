@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <a href="{{route('products.index')}}" class="btn btn-label-secondary">Trở Về</a>
+        <a href="{{route('products.index')}}" class="btn btn-secondary">Trở Về</a>
     </div>
     </body>
 

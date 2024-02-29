@@ -12,7 +12,8 @@
                             @csrf
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Tên</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="name">
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="name" value="{{ old('name') }}">
+                                @error('name') <div class="alert alert-danger">{{ $message }}</div> @enderror
                             </div>
                             <button type="submit" class="btn btn-secondary me-2">Thêm</button>
                             <a href="{{route('categories.index')}}" class="btn btn-light">Trở về</a>

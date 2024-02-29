@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -15,6 +17,8 @@ class ProductController extends Controller
     {
         // $this->authorize('viewAny', Category::class);
         $keyword = $request->input('keyword');
+        $status = $request->input('keyword11');
+
         $query = Product::orderBy('id', 'DESC')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.name as category_name');
@@ -22,10 +26,13 @@ class ProductController extends Controller
         if ($keyword) {
             $query = $query->where('products.name', 'like', "%$keyword%");
         }
+        if ($status) {
+            $query = $query->where('products.status', 'like', "%$status%");
+        }
 
         $products = $query->paginate(5);
 
-        return view('admin.products.index', compact('products', 'keyword'));
+        return view('admin.products.index', compact('products', 'keyword' , 'status'));
     }
     public function create()
     {
@@ -36,7 +43,7 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         try {
             $item = new Product();
@@ -58,10 +65,10 @@ class ProductController extends Controller
             }
             $item->save();
             Log::info('Product stored successfully. ID: ' . $item->id);
-            return redirect()->route('products.index')->with('success', __('sys.store_item_success'))->with('products');
+            return redirect()->route('products.index')->with('successMessage','Thêm thành công')->with('products');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('error', __('sys.store_item_error'));
+            return redirect()->route('products.index')->with('errorMessage','Thêm thất bại');
         }
     }
     public function edit($id)
@@ -81,7 +88,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', __('sys.item_not_found'));
         }
     }
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
         try {
             $item = Product::findOrFail($id);
@@ -103,13 +110,13 @@ class ProductController extends Controller
             }
             $item->save();
             Log::info('Product updated', ['id' => $item->id]);
-            return redirect()->route('products.index')->with('success', __('sys.update_item_success'));
+            return redirect()->route('products.index')->with('successMessage','Cập nhật thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('products.index')->with('errorMessage', 'Cập nhật thất bại');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('error', __('sys.update_item_error'));
+            return redirect()->route('products.index')->with('errorMessage','Cập nhật không thành công');
         }
     }
     public function destroy($id)
@@ -119,13 +126,13 @@ class ProductController extends Controller
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
             Log::info('Product message', ['context' => 'value']);
-            return redirect()->route('products.index')->with('success', __('sys.destroy_item_success1'));
+            return redirect()->route('products.index')->with('successMessage','Xóa thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('products.index')->with('errorMessage','Xóa thất bại');
         } catch (QueryException  $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('error', __('sys.destroy_item_error'));
+            return redirect()->route('products.index')->with('errorMessage','Xóa không thành công');
         }
     }
     public function show($id)
