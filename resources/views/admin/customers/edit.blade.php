@@ -9,6 +9,24 @@
             transform: translate(-50%, -50%);
         }
     </style>
+     <script>
+        @if (session('successMessage'))
+            Swal.fire({
+                icon: 'success',
+                text: '{{ session('successMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
+    <script>
+        @if (session('errorMessage'))
+            Swal.fire({
+                icon: 'error',
+                text: '{{ session('errorMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
 
     <div class="main-panel">
         <div class="content-wrapper">
@@ -16,7 +34,7 @@
                 <div class="col-md-6 grid-margin stretch-card center-form">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Chỉnh sửa</h4>
+                            <h4 class="card-title">Chỉnh sửa thông tin khách hàng</h4>
                             <form action="{{ route('customers.update', $item->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf

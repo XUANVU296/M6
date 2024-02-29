@@ -44,10 +44,10 @@ public function store(StoreCustomerRequest $request)
         $item->phone = $request->phone;
         $item->save();
         Log::info('Customer stored successfully. ID: ' . $item->id);
-        return redirect()->route('customers.index')->with('success', __('sys.store_item_success'))->with('customers');
+        return redirect()->route('customers.index')->with('successMessage','Thêm khách hàng thành công');
     } catch (QueryException $e) {
         Log::error($e->getMessage());
-        return redirect()->route('customers.index')->with('error', __('sys.store_item_error'));
+        return redirect()->route('customers.index')->with('errorMessage','Thêm thất bại');
     }
 }
 public function edit($id)
@@ -61,7 +61,7 @@ public function edit($id)
             return view("admin.customers.edit", $params);
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('customers.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('customers.index')->with('errorMessage','Bạn không có quyền truy cập vào trang chỉnh sửa');
         }
     }
     public function update(UpdateCustomerRequest $request, $id)
@@ -73,13 +73,13 @@ public function edit($id)
             $item->phone = $request->phone;
             $item->save();
             Log::info('Customer updated', ['id' => $item->id]);
-            return redirect()->route('customers.index')->with('success', __('sys.update_item_success'));
+            return redirect()->route('customers.index')->with('successMessage','Cập nhật thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('customers.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('customers.index')->with('errorMessage', 'Cập nhật thất bại');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('customers.index')->with('error', __('sys.update_item_error'));
+            return redirect()->route('customers.index')->with('errorMessage','Cập nhật không thành công');
         }
     }
     public function destroy($id)
@@ -89,13 +89,13 @@ public function edit($id)
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
             Log::info('Customer message', ['context' => 'value']);
-            return redirect()->route('customers.index')->with('success', __('sys.destroy_item_success1'));
+            return redirect()->route('customers.index')->with('successMessage','Xóa khách hàng thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('customers.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('customers.index')->with('errorMessage','Xóa thất bại');
         } catch (QueryException  $e) {
             Log::error($e->getMessage());
-            return redirect()->route('customers.index')->with('error', __('sys.destroy_item_error'));
+            return redirect()->route('customers.index')->with('errorMessage','Xóa không thành công');
         }
     }
 }
