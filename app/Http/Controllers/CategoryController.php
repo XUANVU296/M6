@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -29,7 +31,7 @@ class CategoryController extends Controller
         return view('admin.categories.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
         try {
             $item = new Category();
@@ -38,10 +40,10 @@ class CategoryController extends Controller
 
 
             Log::info('Category stored successfully. ID: ' . $item->id);
-            return redirect()->route('categories.index')->with('success', __('sys.store_item_success'))->with('categories');
+            return redirect()->route('categories.index')->with('successMessage','Thêm thành công');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.index')->with('error', __('sys.store_item_error'));
+            return redirect()->route('categories.index')->with('errorMessage','Thêm thất bại');
         }
     }
     public function edit($id)
@@ -58,20 +60,20 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('error', __('sys.item_not_found'));
         }
     }
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
         try {
             $item = Category::findOrFail($id);
             $item->name = $request->name;
             $item->save();
             Log::info('Category updated', ['id' => $item->id]);
-            return redirect()->route('categories.index')->with('success', __('sys.update_item_success'));
+            return redirect()->route('categories.index')->with('successMessage','Cập nhật thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('categories.index')->with('errorMessage', 'Cập nhật thất bại');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.index')->with('error', __('sys.update_item_error'));
+            return redirect()->route('categories.index')->with('errorMessage','Cập nhật không thành công');
         }
     }
     public function destroy($id)
@@ -81,13 +83,13 @@ class CategoryController extends Controller
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
             Log::info('Category message', ['context' => 'value']);
-            return redirect()->route('categories.index')->with('success', __('sys.destroy_item_success1'));
+            return redirect()->route('categories.index')->with('successMessage','Xóa thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.index')->with('error', __('sys.item_not_found'));
+            return redirect()->route('categories.index')->with('errorMessage','Xóa thất bại');
         } catch (QueryException  $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.index')->with('error', __('sys.destroy_item_error'));
+            return redirect()->route('categories.index')->with('errorMessage','Xóa không thành công');
         }
     }
 }

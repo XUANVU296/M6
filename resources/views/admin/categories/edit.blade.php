@@ -14,6 +14,7 @@
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Tên</label>
                                 <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="name" value="{{ $item->name }}">
+                                @error('name') <div class="alert alert-danger">{{ $message }}</div> @enderror
                             </div>
                             <button type="submit" class="btn btn-secondary me-2">Cập nhật</button>
                             <a href="{{route('categories.index')}}" class="btn btn-light">Trở về</a>

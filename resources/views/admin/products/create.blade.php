@@ -12,27 +12,37 @@
                             @csrf
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Ảnh</label>
-                                <input type="file" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="image" value="{{ old('image') }}">
+                                <input type="file" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="image" value="{{ old('image') }}" style="width: 1000px;">
+                                @error('image') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Tên</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="name" value="{{ old('name') }}">
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập tên" name="name" value="{{ old('name') }}" style="width: 1000px;">
+                                @error('name') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Mô tả</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập mô tả" name="description" value="{{ old('description') }}">
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập mô tả" name="description" value="{{ old('description') }}" style="width: 1000px;">
+                                @error('description') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Giá</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập giá" name="price" value="{{ old('price') }}">
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập giá" name="price" value="{{ old('price') }}" style="width: 1000px;">
+                                @error('price') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Số lượng</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập sô lượng" name="quantity" value="{{ old('quantity') }}">
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập sô lượng" name="quantity" value="{{ old('quantity') }}" style="width: 1000px;">
+                                @error('quantity') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                             </div>
                             <div class="mb-3">
                                 <label class="form-label mb-1" for="status-org">Trạng thái </label>
-                                <select class="form-control" name="status" value="{{ old('status') }}">
+                                <select class="form-control" name="status" value="{{ old('status') }}" style="width: 1000px;">
                                     <option value="">Tất cả</option>
                                     <option value="Còn">Còn</option>
                                     <option value="Hết">Hết</option>
@@ -41,7 +51,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Thể loại</label>
-                                <select name="category_id" class="form-select" value="{{ old('category_id') }}">
+                                <select name="category_id" class="form-select" value="{{ old('category_id') }}" style="width: 1000px;">
                                     <option value="">Vui lòng chọn</option>
                                     @foreach($categories as $index => $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
