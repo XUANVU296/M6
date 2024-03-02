@@ -1,35 +1,70 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\User;
+use App\Http\Requests\UserRequet;
+use App\Http\Requests\ProductRequest;
 use App\Models\Group;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
-{
-    $query = User::orderBy('id', 'DESC')->with('group');
-    if ($request->filled('search_name') || $request->filled('search_email') || $request->filled('search_phone')) {
-        $query->where(function($query) use ($request) {
-            if ($request->filled('search_name')) {
-                $query->where('name', 'like', "%{$request->input('search_name')}%");
-            }
-            if ($request->filled('search_email')) {
-                $query->where('email', 'like', "%{$request->input('search_email')}%");
-            }
-            if ($request->filled('search_phone')) {
-                $query->where('phone', 'like', "%{$request->input('search_phone')}%");
-            }
-        });
+    public function index()
+    {
+        // $this->authorize('viewAny', User::class);
+        $users = User::with('groups');
+
+        $users = User::all();
+        // $users = User::search()->paginate(4);
+        $param = [
+            'users' => $users,
+        ];
+        return view('admin.users.index', $param);
     }
-    $users = $query->paginate(3);
-    return view('admin.users.index', compact('users'));
-}
+
+    public function showAdmin()
+    {
+        $admins = User::get();
+        $param = [
+            'admins' => $admins,
+        ];
+        return view('user.admin', $param);
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // $this->authorize('create', User::class);
+        $groups = Group::get();
+        $param = [
+            'groups' => $groups,
+        ];
+        return view('admin.users.add', $param);
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+
+        // $user->position = $request->position;
+        $user->group_id = $request->group_id;
+
+
 public function create()
 {
     $groups = Group::all();
@@ -52,6 +87,55 @@ public function store(StoreUserRequest $request)
                 $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
                 $path = 'storage/' . $request->file($fieldName)->storeAs('public/images', $fileName);
                 $path = str_replace('public/', '', $path);
+                $user->image = $path;
+            }
+        $user->save();
+
+        $data = [
+            'name' => $request->name,
+            'pass' => $request->password,
+        ];
+
+
+
+        return redirect()->route('user.index')->with('success', __('sys.store_item_success12'));
+    }
+
+    public function show($id)
+    {
+        // $this->authorize('view', User::class);
+        $user = User::findOrFail($id);
+        $param =[
+            'user'=>$user,
+        ];
+
+
+        // $productshow-> show();
+        return view('user.profile', $param);
+    }
+
+    public function edit($id)
+    {
+        // $this->authorize('view', User::class);
+        $user = User::find($id);
+        $groups=Group::get();
+        $param = [
+            'user' => $user ,
+            'groups' => $groups
+        ];
+        return view('admin.users.edit', $param);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+
+        // $user->position = $request->position;
+        $user->group_id = $request->group_id;
+        $fieldName = 'image';
                 $item->image = $path;
             }
         $item->save();
@@ -94,31 +178,112 @@ public function edit($id)
                 $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
                 $path = 'storage/' . $request->file($fieldName)->storeAs('public/images', $fileName);
                 $path = str_replace('public/', '', $path);
-                $item->image = $path;
+                $user->image = $path;
             }
+        $user->save();
+        $notification = [
+            'message' => 'Chỉnh Sửa Thành Công!',
+            'alert-type' => 'success'
+        ];
+        return redirect()->route('user.index')->with($notification);
+    }
+
+    // hiển thị form đổi mật khẩu
+    public function editpass($id)
+    {
+        // $this->authorize('view', User::class);
+        $user = User::find($id);
+        $param =[
+            'user'=>$user,
+        ];
+        return view('user.editpass', $param);
+    }
+
+     // hiển thị form đổi mật khẩu
+     public function adminpass($id)
+     {
+         $this->authorize('adminUpdatePass', User::class);
+         $user = User::find($id);
+         $param =[
+             'user'=>$user,
+         ];
+         return view('user.adminpass', $param);
+     }
+
+    // chỉ có superAdmin mới có quyền đổi mật khẩu người kh
+    public function adminUpdatePass(Request $request, $id)
+    {
+        $this->authorize('adminUpdatePass', User::class);
+        $user = User::find($id);
+        if ($request->renewpassword==$request->newpassword) {
+            $item = User::find($id);
+            $item->password= bcrypt($request->newpassword);
             $item->save();
-            return redirect()->route('users.index')->with('successMessage','Cập nhật thành công');
-        } catch (ModelNotFoundException $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('users.index')->with('errorMessage', 'Cập nhật thất bại');
-        } catch (QueryException $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('users.index')->with('errorMessage','Cập nhật không thành công');
+            $notification = [
+                'message' => 'Đổi mật khẩu thành công!',
+                'alert-type' => 'success'
+            ];
+            return redirect()->route('user.index')->with($notification);
+        } else {
+            $notification = [
+                'sainhap' => 'Bạn nhập mật khẩu không trùng khớp!',
+                'alert-type' => 'error'
+            ];
+            return back()->with($notification);
         }
     }
+
+    public function updatepass(UserRequet $request)
+    {
+        if($request->renewpassword==$request->newpassword)
+        {
+            if ((Hash::check($request->password, Auth::user()->password))) {
+                $item=User::find(Auth()->user()->id);
+                $item->password= bcrypt($request->newpassword);
+                $item->save();
+                $notification = [
+                    'message' => 'Đổi mật khẩu thành công!',
+                    'alert-type' => 'success'
+                ];
+                return redirect()->route('user.index')->with($notification);
+            }else{
+                // dd($request);
+                $notification = [
+                    'saipass' => '!',
+
+                ];
+                return back()->with($notification);
+            }
+        }else{
+            $notification = [
+                'sainhap' => '!',
+            ];
+            return back()->with($notification);
+        }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
-        try {
-            $item = User::findOrFail($id);
-            // $this->authorize('delete', $item);
-            $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
-            return redirect()->route('users.index')->with('successMessage','Xóa người dùng thành công');
-        } catch (ModelNotFoundException $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('users.index')->with('errorMessage','Xóa thất bại');
-        } catch (QueryException  $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('users.index')->with('errorMessage','Xóa không thành công');
+    //   $this->authorize('forceDelete', Product::class);
+        $notification = [
+            'sainhap' => '!',
+        ];
+
+        $user = User::find($id);
+        if($user->group->name!='Super Admin'){
+            $user->delete();
+        }
+        else{
+            return dd(__METHOD__);
         }
     }
+}
+
 }

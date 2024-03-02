@@ -35,14 +35,14 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Chỉnh sửa chức vụ</h4>
-                            <form action="{{ route('groups.update', $item->id) }}" method="POST"
+                            <form action="{{ route('groups.update', $userGroup->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Tên chức vụ</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1" name="name"
-                                        value="{{ $item->name }}">
+                                        value="{{ $userGroup->name }}">
                                 </div>
                                 @error('name')
                                     <div class="alert alert-danger">{{ $message }}</div>

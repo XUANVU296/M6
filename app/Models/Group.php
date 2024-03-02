@@ -14,9 +14,9 @@ class Group extends Model
         'delete_at',
     ];
     public function users() {
-        $this->hasMany(User::class, 'group_id', 'id');
+       return $this->hasMany(User::class, 'group_id', 'id');
     }
-    public function roles()
+    public function role()
     {
         return $this->belongsToMany(Role::class, 'group_roles', 'group_id', 'role_id');
     }
