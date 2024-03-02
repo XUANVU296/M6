@@ -74,4 +74,32 @@
     </div>
 </div>
 
+    <style>
+        .center-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+     <script>
+        @if (session('successMessage'))
+            Swal.fire({
+                icon: 'success',
+                text: '{{ session('successMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
+    <script>
+        @if (session('errorMessage'))
+            Swal.fire({
+                icon: 'error',
+                text: '{{ session('errorMessage') }}',
+                confirmButtonText: 'Đóng'
+            });
+        @endif
+    </script>
+
+   
 @endsection

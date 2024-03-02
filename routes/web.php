@@ -26,6 +26,7 @@ Route::get('/detail/{id}', [GroupController::class, 'detail'])->name('group.deta
 Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name('group.group_detail');
 Route::get('/edit/{id}', [GroupController::class, 'edit'])->name('group.edit');
 Route::delete('destroy/{id}', [GroupController::class, 'destroy'])->name('group.destroy');
+Route::resource('users', \App\Http\Controllers\UserController::class);
 
 
 Route::group(['prefix' => '/'], function () {

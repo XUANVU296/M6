@@ -132,11 +132,11 @@
             text: "Ngu!",
             }).bindClickHandler('data-swal-toast-template')
         </script>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+        <div class="card-footer">
+            <nav class="float-right">
+                {{ $users->appends(request()->query())->links('pagination::bootstrap-5') }}
+            </nav>
         </div>
     </div>
-</div>
 @endsection

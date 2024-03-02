@@ -63,6 +63,22 @@ class UserController extends Controller
 
         // $user->position = $request->position;
         $user->group_id = $request->group_id;
+
+
+public function create()
+{
+    $groups = Group::all();
+    return view('admin.users.create',compact('groups'));
+}
+public function store(StoreUserRequest $request)
+{
+    try {
+        $item = new User();
+        $item->name = $request->name;
+        $item->email = $request->email;
+        $item->phone = $request->phone;
+        $item->group_id = $request->group_id;
+        $item->password = Hash::make($request->password);
         $fieldName = 'image';
             if ($request->hasFile($fieldName)) {
                 $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
@@ -120,6 +136,41 @@ class UserController extends Controller
         // $user->position = $request->position;
         $user->group_id = $request->group_id;
         $fieldName = 'image';
+                $item->image = $path;
+            }
+        $item->save();
+        return redirect()->route('users.index')->with('successMessage','Thêm người dùng thành công');
+    } catch (QueryException $e) {
+        Log::error($e->getMessage());
+        return redirect()->route('users.index')->with('errorMessage','Thêm thất bại');
+    }
+}
+public function edit($id)
+    {
+        try {
+            $item = User::findOrFail($id);
+            $groups = Group::all();
+            // $this->authorize('update',  $item);
+            $params = [
+                'item' => $item,
+                'groups' => $groups
+            ];
+            return view("admin.users.edit", $params);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e->getMessage());
+            return redirect()->route('users.index')->with('errorMessage','Bạn không có quyền truy cập vào trang chỉnh sửa');
+        }
+    }
+    public function update(UpdateUserRequest $request, $id)
+    {
+        try {
+            $item = User::findOrFail($id);
+            $item->name = $request->name;
+            $item->email = $request->email;
+            $item->phone = $request->phone;
+            $item->group_id = $request->group_id;
+            $item->password = Hash::make($request->password);
+            $fieldName = 'image';
             if ($request->hasFile($fieldName)) {
                 $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
                 $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
@@ -233,4 +284,6 @@ class UserController extends Controller
             return dd(__METHOD__);
         }
     }
+}
+
 }
