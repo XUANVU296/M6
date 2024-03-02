@@ -57,9 +57,6 @@
                                 <tbody>
                                     @foreach ($groups as $key => $group)
                                     <tr>
-                                        <!-- <td class="py-1">
-                                            <img src="../../images/faces/face1.jpg" alt="image" />
-                                        </td> -->
                                         <td>
                                             {{ $key + 1 }}
                                         </td>
@@ -67,14 +64,15 @@
                                             {{ $group->name }}
                                         </td>
                                         <td>Hiện có {{ count($group->users) }} người</td>
+
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{route('categories.edit' , $category->id)}}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
-                                                    </form>
+                                                    <a class="dropdown-item" href="{{route('group.detail', $group->id)}}">Trao Quyền</a>
+                                                    <a class="dropdown-item" href="{{route('groups.edit' , $group->id)}}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
 
-                                                    <form method="POST" action="{{route('categories.destroy' ,$category->id)}}">
+                                                    <form method="POST" action="{{route('groups.destroy' ,$group->id)}}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="dropdown-item" onclick="return confirm('Bạn có muốn xóa ?')"><i class="bx bx-trash me-1"></i> Xóa</button>
@@ -85,63 +83,24 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                                </ <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js">
-                                </script>
-                                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-                                <script>
-                                    @php
-                                    if (Session::has('addgroup')) {
-                                        @endphp
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Tạo quyền xong rồi nhé!',
-                                            text: "Cấp quyền ngay nhé",
-                                            showClass: {
-                                                popup: 'swal2-show'
-                                            }
-                                        })
-                                        @php
-                                    }
+                            </table>
+                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                            <script>
+                                @php
+                                if (Session::has('addgroup')) {
                                     @endphp
-                                </script>
-                                <script>
-                                    $(document).on('click', '.deleteIcon', function(e) {
-                                        // e.preventDefault();
-                                        let id = $(this).attr('id');
-                                        let href = $(this).data('href');
-                                        let csrf = '{{ csrf_token() }}';
-                                        console.log(id);
-                                        Swal.fire({
-                                            title: 'Bạn có chắc không?',
-                                            text: "Bạn sẽ không thể hoàn nguyên điều này!",
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'Có, xóa!'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                $.ajax({
-                                                    url: href,
-                                                    method: 'delete',
-                                                    data: {
-                                                        _token: csrf
-                                                    },
-                                                    success: function(res) {
-                                                        Swal.fire(
-                                                            'Deleted!',
-                                                            'Tệp của bạn đã bị xóa!',
-                                                            'success'
-                                                        )
-                                                        $('.item-' + id).remove();
-                                                    }
-
-                                                });
-                                            }
-                                        })
-                                    });
-                                </script>table>
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Tạo quyền xong rồi nhé!',
+                                        text: "Cấp quyền ngay nhé",
+                                        showClass: {
+                                            popup: 'swal2-show'
+                                        }
+                                    })
+                                    @php
+                                }
+                                @endphp
+                            </script>
                         </div>
                     </div>
                 </div>

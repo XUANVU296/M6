@@ -18,19 +18,19 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('viewAny',Group::class);
         $query = Group::query(true);
-        if( $request->name ){
-            $query->where('name',$request->name);
+
+        if ($request->name) {
+            $query->where('name', $request->name);
         }
+
         $groups = $query->paginate(4);
-        
-        $users= User::get();
+
         $param = [
             'groups' => $groups,
-            'users' => $users
         ];
-        return view('admin.groups.index', $param );
+
+        return view('admin.groups.index', $param);
     }
 
     /**
@@ -113,6 +113,8 @@ class GroupController extends Controller
     {
         $group = Group::find($id);
         $group->delete();
+
+        return redirect()->route('groups.index');
     }
      /**
      * Show the form for editing the specified resource.
@@ -122,24 +124,28 @@ class GroupController extends Controller
      */
     public function detail($id)
     {
-        $group=Group::find($id);
+        $group = Group::find($id);
 
         $current_user = Auth::user();
-        $userRoles = $group->role->pluck('id', 'name')->toArray();
-        // dd($userRoles);
+        $userRoles = [];
+        if ($group->role) {
+            $userRoles = $group->role->pluck('id', 'name')->toArray();
+        }
+
         $roles = Role::all()->toArray();
         $group_names = [];
-        /////lấy tên nhóm quyền
         foreach ($roles as $role) {
             $group_names[$role['group_name']][] = $role;
         }
+
         $params = [
             'group' => $group,
             'userRoles' => $userRoles,
             'roles' => $roles,
             'group_names' => $group_names,
         ];
-        return view('admin.groups.detail',$params);
+
+        return view('admin.groups.detail', $params);
     }
 
      /**
