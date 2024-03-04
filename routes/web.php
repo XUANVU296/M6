@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('index');
 // });
-Route::resource('categories', \App\Http\Controllers\CategoryController::class);
-Route::resource('customers', \App\Http\Controllers\CustomerController::class);
-Route::resource('products', \App\Http\Controllers\ProductController::class);
-Route::resource('groups', \App\Http\Controllers\GroupController::class);
+Route::get('/login-admin', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::post('/checklogin', [\App\Http\Controllers\AuthController::class, 'checklogin'])->name('checklogin');
+// Route::prefix('/')->middleware(['auth.check'])->group(function () {
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+    Route::resource('customers', \App\Http\Controllers\CustomerController::class);
+    Route::resource('products', \App\Http\Controllers\ProductController::class);
+    Route::resource('groups', \App\Http\Controllers\GroupController::class);
+// });
 Route::get('/detail/{id}', [GroupController::class, 'detail'])->name('group.detail');
 Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name('group.group_detail');
 Route::get('/edit/{id}', [GroupController::class, 'edit'])->name('group.edit');
