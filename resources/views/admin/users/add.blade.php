@@ -54,7 +54,7 @@
                                 @endif
                             </div>
                             <div class="form-group col-lg-4">
-                                <label class="control-label" for="flatpickr01">Giới Tính<abbr name="Trường bắt buộc">*</abbr></label>
+                                <label class="control-label" for="flatpickr01">Giới Tính<abbr name="male">*</abbr></label>
                                 <select name="sex" id="" class="form-control">
                                     <option value="">--Vui lòng chọn--</option>
                                     <option value="Nam">Nam</option>
