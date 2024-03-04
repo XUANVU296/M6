@@ -34,7 +34,12 @@
                                 @error('password') <div class="alert alert-danger">{{ $message }}</div> @enderror
 
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">STT</label>
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập sđt" name="phone" value="{{ old('phone') }}" style="width: 1000px;">
+                                @error('phone') <div class="alert alert-danger">{{ $message }}</div> @enderror
 
+                            </div>
                             <div class="form-group col-lg-4">
                                 <label class="control-label" for="flatpickr01">Chức Vụ<abbr name="Trường bắt buộc">*</abbr></label>
                                 <select name="group_id" id="" class="form-control">
@@ -63,7 +68,7 @@
                                 <p style="color:red">{{ $errors->first('sex') }}</p>
                                 @endif
                             </div>
-                         
+
                             <button type="submit" class="btn btn-secondary me-2">Thêm</button>
                             <a href="{{route('user.index')}}" class="btn btn-light">Trở về</a>
                         </form>

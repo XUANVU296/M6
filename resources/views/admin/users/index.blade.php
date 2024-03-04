@@ -61,7 +61,7 @@
                                         <td><img width="90px" height="90px" src="{{ asset($user->image) }}" alt=""></td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->groups->name }}</td>
+                                        <td>{{ $user->group->name }}</td>
 
                                         <td>
                                             <div class="dropdown">
@@ -133,10 +133,6 @@
             }).bindClickHandler('data-swal-toast-template')
         </script>
 
-        <div class="card-footer">
-            <nav class="float-right">
-                {{ $users->appends(request()->query())->links('pagination::bootstrap-5') }}
-            </nav>
-        </div>
+
     </div>
 @endsection
