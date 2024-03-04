@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\UserRequet;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Group;
 use App\Models\Product;
 use App\Models\User;
@@ -54,31 +56,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-
+        // $user->address = $request->address;
+        $user->phone = $request->phone;
+        // $user->birthday = $request->birthday;
         // $user->position = $request->position;
         $user->group_id = $request->group_id;
-
-
-public function create()
-{
-    $groups = Group::all();
-    return view('admin.users.create',compact('groups'));
-}
-public function store(StoreUserRequest $request)
-{
-    try {
-        $item = new User();
-        $item->name = $request->name;
-        $item->email = $request->email;
-        $item->phone = $request->phone;
-        $item->group_id = $request->group_id;
-        $item->password = Hash::make($request->password);
         $fieldName = 'image';
             if ($request->hasFile($fieldName)) {
                 $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
@@ -126,51 +114,18 @@ public function store(StoreUserRequest $request)
         return view('admin.users.edit', $param);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-
+        // $user->address = $request->address;
+        $user->phone = $request->phone;
+        // $user->birthday = $request->birthday;
         // $user->position = $request->position;
         $user->group_id = $request->group_id;
         $fieldName = 'image';
-                $item->image = $path;
-            }
-        $item->save();
-        return redirect()->route('users.index')->with('successMessage','Thêm người dùng thành công');
-    } catch (QueryException $e) {
-        Log::error($e->getMessage());
-        return redirect()->route('users.index')->with('errorMessage','Thêm thất bại');
-    }
-}
-public function edit($id)
-    {
-        try {
-            $item = User::findOrFail($id);
-            $groups = Group::all();
-            // $this->authorize('update',  $item);
-            $params = [
-                'item' => $item,
-                'groups' => $groups
-            ];
-            return view("admin.users.edit", $params);
-        } catch (ModelNotFoundException $e) {
-            Log::error($e->getMessage());
-            return redirect()->route('users.index')->with('errorMessage','Bạn không có quyền truy cập vào trang chỉnh sửa');
-        }
-    }
-    public function update(UpdateUserRequest $request, $id)
-    {
-        try {
-            $item = User::findOrFail($id);
-            $item->name = $request->name;
-            $item->email = $request->email;
-            $item->phone = $request->phone;
-            $item->group_id = $request->group_id;
-            $item->password = Hash::make($request->password);
-            $fieldName = 'image';
             if ($request->hasFile($fieldName)) {
                 $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
                 $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
@@ -191,7 +146,7 @@ public function edit($id)
     // hiển thị form đổi mật khẩu
     public function editpass($id)
     {
-        // $this->authorize('view', User::class);
+        $this->authorize('view', User::class);
         $user = User::find($id);
         $param =[
             'user'=>$user,
@@ -271,7 +226,7 @@ public function edit($id)
      */
     public function destroy($id)
     {
-    //   $this->authorize('forceDelete', Product::class);
+      $this->authorize('forceDelete', Product::class);
         $notification = [
             'sainhap' => '!',
         ];
@@ -284,6 +239,4 @@ public function edit($id)
             return dd(__METHOD__);
         }
     }
-}
-
 }

@@ -36,6 +36,12 @@
                                 @error('password') <div class="alert alert-danger">{{ $message }}</div> @enderror
 
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">SĐT</label>
+                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập sđt" name="phone" value="{{ $user->phone }}" style="width: 1000px;">
+                                @error('phone') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
+                            </div>
                             <div class="form-group col-lg-4">
                                 <label class="control-label" for="flatpickr01">Chức Vụ<abbr name="Trường bắt buộc">*</abbr></label>
                                 <select name="group_id" id="" class="form-control">
@@ -101,5 +107,5 @@
         @endif
     </script>
 
-   
+
 @endsection

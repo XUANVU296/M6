@@ -24,7 +24,7 @@ class GroupController extends Controller
             $query->where('name', $request->name);
         }
 
-        $groups = $query->paginate(4);
+        $groups = $query->paginate(5);
 
         $param = [
             'groups' => $groups,
