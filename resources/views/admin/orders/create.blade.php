@@ -48,6 +48,25 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="product_id">Tên sản phẩm</label>
+                                    <select class="form-control" id="product_id" name="product_id">
+                                        <option value="">-- Chọn sản phẩm --</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                                                {{ $product->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Số lượng sản phẩm</label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1"
+                                        placeholder="Vui lòng nhập số lượng sản phẩm" name="quantity">
+                                </div>
+                                @error('quantity')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <div class="form-group">
                                     <label for="exampleInputUsername1">Tổng đơn hàng</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1"
                                         placeholder="Vui lòng nhập tổng giá trị đơn hàng" name="total_amount">
