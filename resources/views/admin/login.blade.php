@@ -77,9 +77,7 @@
                                     <a href="#" class="auth-link text-black">Quên mật khẩu ?</a>
                                 </div>
                                 <div class="mb-2">
-                                    <a href="/login/google" class="btn btn-block btn-google auth-form-btn">
-                                        <i class="mdi mdi-google me-2"></i> Đăng nhập bằng Google
-                                    </a>
+                                   
                                 </div>
                             </form>
                         </div>
