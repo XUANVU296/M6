@@ -25,6 +25,9 @@ Route::post('/checklogin', [\App\Http\Controllers\AuthController::class, 'checkl
     Route::resource('customers', \App\Http\Controllers\CustomerController::class);
     Route::resource('products', \App\Http\Controllers\ProductController::class);
     Route::resource('groups', \App\Http\Controllers\GroupController::class);
+    Route::resource('orders', \App\Http\Controllers\OrderController::class);
+    Route::delete('/orders/{id}', [OrderController::class,'delete'])->name('orders.delete');
+
 // });
 Route::get('/detail/{id}', [GroupController::class, 'detail'])->name('group.detail');
 Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name('group.group_detail');
