@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\UserRequet;
-use App\Http\Requests\ProductRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Group;
@@ -34,7 +32,7 @@ class UserController extends Controller
         $param = [
             'admins' => $admins,
         ];
-        return view('user.admin', $param);
+        return view('admin', $param);
     }
     /**
      * Show the form for creating a new resource.
@@ -89,10 +87,11 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', __('sys.store_item_success12'));
     }
 
-    public function show($id)
+    public function show(User $user, $id)
     {
         $this->authorize('view', User::class);
         $user = User::findOrFail($id);
+        $userId = $user->id;
         $param =[
             'user'=>$user,
         ];
@@ -120,29 +119,20 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        // $user->address = $request->address;
         $user->phone = $request->phone;
-        // $user->birthday = $request->birthday;
-        // $user->position = $request->position;
         $user->group_id = $request->group_id;
         $fieldName = 'image';
-            if ($request->hasFile($fieldName)) {
-                $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-                $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-                $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-                $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-                $path = 'storage/' . $request->file($fieldName)->storeAs('public/images', $fileName);
-                $path = str_replace('public/', '', $path);
-                $user->image = $path;
-            }
+        if ($request->hasFile($fieldName)) {
+            $path = $request->file($fieldName)->store('public/images');
+            $user->image = str_replace('public/', '', $path);
+        }
         $user->save();
-        $notification = [
+        $successMessage = [
             'message' => 'Chỉnh Sửa Thành Công!',
             'alert-type' => 'success'
         ];
-        return redirect()->route('user.index')->with($notification);
+        return redirect()->route('user.index')->with($successMessage);
     }
-
     // hiển thị form đổi mật khẩu
     public function editpass($id)
     {

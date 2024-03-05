@@ -21,6 +21,10 @@ class Order extends Model
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_defails', 'order_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id');
+    }
+    public function order_details()
+    {
+        return $this->hasMany(Order_defail::class);
     }
 }
