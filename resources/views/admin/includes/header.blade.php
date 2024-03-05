@@ -64,6 +64,9 @@
                     <span class="nav-profile-name">{{ auth()->user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    <a href="{{route('changePassword')}}" class="dropdown-item">Đổi mật khẩu
+
+                    </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
