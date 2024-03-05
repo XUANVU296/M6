@@ -42,11 +42,17 @@
             </a>
         </li>
 
-
         <li class="nav-item">
             <a class="nav-link" href="{{route('customers.index')}}">
                 <i class="mdi mdi-account-outline menu-icon"></i>
                 <span class="menu-title">Khách hàng</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('orders.index')}}">
+                <i class="mdi mdi-account-group menu-icon"></i>
+                <span class="menu-title">Đơn hàng</span>
             </a>
         </li>
     </ul>
