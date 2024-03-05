@@ -37,8 +37,6 @@ class CategoryController extends Controller
             $item = new Category();
             $item->name = $request->name;
             $item->save();
-
-
             Log::info('Category stored successfully. ID: ' . $item->id);
             return redirect()->route('categories.index')->with('successMessage','Thêm thành công');
         } catch (QueryException $e) {

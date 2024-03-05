@@ -103,6 +103,9 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
+                            <div class="panel-heading">
+                                <h2 class="offset-4">Danh Sách đơn hàng</h2>
+                            </div>
                             <a href="{{ route('orders.create') }}" class="card-title">Thêm mới</a>
                             <p class="card-description">
                             <form action="{{ route('orders.index') }}" method="GET" id="form-search">
@@ -134,8 +137,11 @@
                                             <select name="search_total" class="form-control" id="search_total"
                                                 style="height:45px;">
                                                 <option value="">Chọn khoảng giá trị đơn hàng</option>
+                                                <option value="0-10"
+                                                    {{ old('search_total') == '0-10' ? 'selected' : '' }}>Từ 0 VNĐ đến
+                                                    10 000 VNĐ</option>
                                                 <option value="10-50"
-                                                    {{ old('search_total') == '10-50' ? 'selected' : '' }}>Từ 10 000 VNĐ đến
+                                                    {{ old('search_total') == '11-50' ? 'selected' : '' }}>Từ 11 000 VNĐ đến
                                                     50 000 VNĐ</option>
                                                 <option value="51-100"
                                                     {{ old('search_total') == '51-100' ? 'selected' : '' }}>Từ 51 000 VNĐ

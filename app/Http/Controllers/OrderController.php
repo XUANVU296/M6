@@ -37,13 +37,23 @@ class OrderController extends Controller
             $query->whereBetween('date', [$startDateFormatted, $endDateFormatted]);
         }
         if ($request->filled('search_total')) {
+            // Nếu yêu cầu tìm kiếm tổng số đã được cung cấp
             $totalRange = explode('-', $request->input('search_total'));
+            // Phân tách phạm vi tổng số thành mảng
             if (count($totalRange) == 2) {
+                // Nếu mảng chứa 2 phần tử, tức là đã xác định được phạm vi tìm kiếm
                 $minTotal = $totalRange[0];
                 $maxTotal = $totalRange[1];
+                // Lọc kết quả để chỉ hiển thị các mục có tổng số nằm trong phạm vi đã xác định
                 $query->whereBetween('total_amount', [$minTotal, $maxTotal]);
-            } elseif ($request->input('search_total') == '101') {
+            } elseif ($request->input('search_total') > '100') {
+                // Nếu phạm vi được chọn là '101', tức là lựa chọn 'Lớn hơn 100'
+                // Lọc kết quả để chỉ hiển thị các mục có tổng số lớn hơn 100
                 $query->where('total_amount', '>', 100);
+            } elseif ($request->input('search_total') < '11') {
+                // Nếu phạm vi được chọn là '10', tức là lựa chọn 'Dưới 10'
+                // Lọc kết quả để chỉ hiển thị các mục có tổng số nhỏ hơn 10
+                $query->where('total_amount', '<', 10);
             }
         }
         $orders = $query->paginate(3);

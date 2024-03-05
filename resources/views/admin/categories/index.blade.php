@@ -1,6 +1,26 @@
 @extends('admin')
 
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+<script>
+    @if(session('successMessage'))
+    Swal.fire({
+        icon: 'success',
+        text: '{{ session('successMessage') }}',
+        confirmButtonText: 'Đóng'
+    });
+    @endif
+</script>
+<script>
+    @if(session('errorMessage'))
+    Swal.fire({
+        icon: 'error',
+        text: '{{ session('errorMessage') }}',
+        confirmButtonText: 'Đóng'
+    });
+    @endif
+</script>
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -9,24 +29,6 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <script>
-                            @if(session('successMessage'))
-                            Swal.fire({
-                                icon: 'success',
-                                text: '{{ session('successMessage') }}',
-                                confirmButtonText: 'Đóng'
-                            });
-                            @endif
-                        </script>
-                        <script>
-                            @if(session('errorMessage'))
-                            Swal.fire({
-                                icon: 'error',
-                                text: '{{ session('errorMessage') }}',
-                                confirmButtonText: 'Đóng'
-                            });
-                            @endif
-                        </script>
                            <div class="panel-heading">
                             <h2 class="offset-4">Danh Sách Danh mục</h2>
                         </div>

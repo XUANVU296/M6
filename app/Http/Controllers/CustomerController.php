@@ -14,6 +14,7 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
 {
+    $this->authorize('viewAny', Customer::class);
     $query = Customer::orderBy('id', 'DESC');
     if ($request->filled('search_name') || $request->filled('search_email') || $request->filled('search_phone')) {
         $query->where(function($query) use ($request) {
@@ -33,6 +34,7 @@ class CustomerController extends Controller
 }
 public function create()
 {
+    $this->authorize('create', Customer::class);
     return view('admin.customers.create');
 }
 public function store(StoreCustomerRequest $request)
@@ -53,6 +55,7 @@ public function store(StoreCustomerRequest $request)
 public function edit($id)
     {
         try {
+            $this->authorize('update', Customer::class);
             $item = Customer::findOrFail($id);
             // $this->authorize('update',  $item);
             $params = [
@@ -85,6 +88,7 @@ public function edit($id)
     public function destroy($id)
     {
         try {
+            $this->authorize('delete', Customer::class);
             $item = Customer::findOrFail($id);
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
