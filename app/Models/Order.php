@@ -13,7 +13,8 @@ class Order extends Model
         'customer_id',
         'date',
         'total_amount',
-        'order_status'
+        'order_status',
+        'product_id'
     ];
     public function customers()
     {
@@ -21,10 +22,6 @@ class Order extends Model
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id');
-    }
-    public function order_details()
-    {
-        return $this->hasMany(Order_defail::class);
+        return $this->belongsTo(Product::class,'product_id', 'id');
     }
 }

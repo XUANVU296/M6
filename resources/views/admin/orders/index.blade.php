@@ -2,12 +2,6 @@
 
 @section('content')
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            /* Slightly lighter background color */
-        }
-
         .card {
             background-color: #fff;
             border-radius: 10px;
@@ -46,17 +40,6 @@
             display: flex;
             flex-wrap: wrap;
             margin-bottom: 20px;
-        }
-
-        .input-container input {
-            flex: 1;
-            margin-right: 95px;
-            padding: 10px;
-            border-radius: 5px;
-            /* Rounded corners for the input fields */
-            border: 1px solid #ccc;
-            /* Add a border to input fields */
-            justify-content: center;
         }
 
         .input-container input:focus {
@@ -147,15 +130,18 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="search_status">Tìm trạng thái:</label>
-                                            <select name="search_status" class="form-control" id="search_status"
+                                            <label for="search_total">Tìm theo tổng giá trị đơn hàng:</label>
+                                            <select name="search_total" class="form-control" id="search_total"
                                                 style="height:45px;">
-                                                <option value="">Chọn trạng thái</option>
-                                                <option value="Đang xử lý">Đang xử lý</option>
-                                                <option value="Đã xác nhận">Đã xác nhận</option>
-                                                <option value="Đang vận chuyển">Đang vận chuyển</option>
-                                                <option value="Đã giao hàng">Đã giao hàng</option>
-                                                <option value="Hủy">Hủy</option>
+                                                <option value="">Chọn khoảng giá trị đơn hàng</option>
+                                                <option value="10-50"
+                                                    {{ old('search_total') == '10-50' ? 'selected' : '' }}>Từ 10 000 VNĐ đến
+                                                    50 000 VNĐ</option>
+                                                <option value="51-100"
+                                                    {{ old('search_total') == '51-100' ? 'selected' : '' }}>Từ 51 000 VNĐ
+                                                    đến 100 000 VNĐ</option>
+                                                <option value="101" {{ old('search_total') == '101' ? 'selected' : '' }}>
+                                                    Trên 100 000 VNĐ</option>
                                             </select>
                                         </div>
                                     </div>
@@ -169,7 +155,7 @@
                                 </div>
                             </form>
                             </p>
-                            <table class="table table-striped table-responsive-lg">
+                            <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>
@@ -183,9 +169,6 @@
                                         </th>
                                         <th>
                                             Tổng đơn
-                                        </th>
-                                        <th>
-                                            Trạng thái
                                         </th>
                                         <th>
                                             Thao tác
@@ -206,9 +189,6 @@
                                             </td>
                                             <td>
                                                 {{ $order->total_amount }}
-                                            </td>
-                                            <td>
-                                                {{ $order->order_status }}
                                             </td>
                                             <td>
                                                 <div class="dropdown">
