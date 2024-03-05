@@ -14,10 +14,10 @@ class GroupRoleSeeder extends Seeder
     public function run(): void
     {
         Group_role::truncate();
-        for($i = 1; $i <= 56; $i++){
+        for($i = 37; $i <= 72; $i++){
             $item = new Group_role();
             $item->role_id= $i;
-            $item->group_id = 1;
+            $item->group_id = 10;
             $item->timestamps = false;
             $item->save();
         }

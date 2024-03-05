@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $item->email = "lechibaovlog@gmail.com";
         $item->password = Hash::make('123456');
         $item->image ='a26.jpg';
-        $item->group_id ='1';
+        $item->group_id ='10';
         // $item->phone ='013456789';
 
         // $item->image ='thang.ipg';

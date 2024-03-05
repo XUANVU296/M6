@@ -10,7 +10,7 @@
                 <div class="row">
                 <div class="col-12">
                         <div class="mb-3">
-                            <label class="form-label" for="ecommerce-customer-name">Số lượng</label>
+                            <label class="form-label" for="ecommerce-customer-name">Giá</label>
                             <input type="text" class="form-control" placeholder="Mô tả" name="price" value="{{ $item->price }}">
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,12 +19,17 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('index');
 // });
-Route::get('/login-admin', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
-Route::post('/checklogin', [\App\Http\Controllers\AuthController::class, 'checklogin'])->name('checklogin');
-// Route::prefix('/')->middleware(['auth.check'])->group(function () {
+Route::get('/', [AuthController::class, 'login'])->name('login');
+Route::post('/checklogin', [AuthController::class, 'checklogin'])->name('checklogin');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::group(['middleware' => 'auth'], function () {
+
     Route::resource('categories', \App\Http\Controllers\CategoryController::class);
     Route::resource('customers', \App\Http\Controllers\CustomerController::class);
     Route::resource('products', \App\Http\Controllers\ProductController::class);
+});
+Route::resource('groups', \App\Http\Controllers\GroupController::class);
     Route::resource('groups', \App\Http\Controllers\GroupController::class);
     Route::resource('orders', \App\Http\Controllers\OrderController::class);
     Route::delete('/orders/{id}', [OrderController::class,'delete'])->name('orders.delete');
@@ -33,8 +39,6 @@ Route::get('/detail/{id}', [GroupController::class, 'detail'])->name('group.deta
 Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name('group.group_detail');
 Route::get('/edit/{id}', [GroupController::class, 'edit'])->name('group.edit');
 Route::delete('destroy/{id}', [GroupController::class, 'destroy'])->name('group.destroy');
-Route::resource('users', \App\Http\Controllers\UserController::class);
-
 
 Route::group(['prefix' => '/'], function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');

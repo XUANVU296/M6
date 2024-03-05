@@ -21,24 +21,25 @@
 </head>
 
 <body>
-  <script>
-    @if (session('successMessage'))
+    <script>
+        @if(session('successMessage'))
         Swal.fire({
             icon: 'success',
             text: '{{ session('successMessage') }}',
             confirmButtonText: 'Đóng'
         });
-    @endif
-</script>
-<script>
-    @if (session('errorMessage'))
+        @endif
+    </script>
+    <script>
+        @if(session('errorMessage'))
         Swal.fire({
             icon: 'error',
             text: '{{ session('errorMessage') }}',
             confirmButtonText: 'Đóng'
         });
-    @endif
-</script>
+        @endif
+    </script>
+
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
@@ -53,16 +54,17 @@
                             <form class="pt-3" action="{{ route('checklogin') }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Nhập email">
+                                    <input type="email" name="email" id="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Nhập email">
+                                    @error('email') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputPassword1" placeholder="Nhập mật khẩu">
+                                   <input type="password" name="password" id="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Nhập mật khẩu">
+                                    @error('password') <div class="alert alert-danger">{{ $message }}</div> @enderror
+
                                 </div>
                                 <div class="mt-3">
-                                    <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                                        onclick="window.location.href='{{ asset('assets/index.html') }}'">ĐĂNG
+                                    <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">ĐĂNG
                                         NHẬP</button>
                                 </div>
                                 <div class="my-2 d-flex justify-content-between align-items-center">
@@ -75,10 +77,10 @@
                                     <a href="#" class="auth-link text-black">Quên mật khẩu ?</a>
                                 </div>
                                 <div class="mb-2">
-                                  <a href="/login/google" class="btn btn-block btn-google auth-form-btn">
-                                      <i class="mdi mdi-google me-2"></i> Đăng nhập bằng Google
-                                  </a>
-                              </div>
+                                    <a href="/login/google" class="btn btn-block btn-google auth-form-btn">
+                                        <i class="mdi mdi-google me-2"></i> Đăng nhập bằng Google
+                                    </a>
+                                </div>
                             </form>
                         </div>
                     </div>
