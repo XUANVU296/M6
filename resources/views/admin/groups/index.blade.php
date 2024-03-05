@@ -66,16 +66,25 @@
                                         <td>Hiện có {{ count($group->users) }} người</td>
 
                                         <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{route('group.detail', $group->id)}}">Trao Quyền</a>
-                                                    <a class="dropdown-item" href="{{route('groups.edit' , $group->id)}}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
-
+                                            <div>
+                                                <div class="dropdown">
                                                     <form method="POST" action="{{route('groups.destroy' ,$group->id)}}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button class="dropdown-item" onclick="return confirm('Bạn có muốn xóa ?')"><i class="bx bx-trash me-1"></i> Xóa</button>
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            @if (Auth::user()->hasPermission('Group_update'))
+
+                                                            <a class="dropdown-item" href="{{route('group.detail', $group->id)}}">Trao Quyền</a>
+                                                            @endif
+                                                            @if (Auth::user()->hasPermission('Group_update'))
+                                                            <a class="dropdown-item" href="{{route('groups.edit' , $group->id)}}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
+                                                            @endif
+
+                                                            @if (Auth::user()->hasPermission('Group_delete'))
+                                                            <button class="dropdown-item" onclick="return confirm('Bạn có muốn xóa ?')"><i class="bx bx-trash me-1"></i> Xóa</button>
+                                                            @endif
+
                                                     </form>
                                                 </div>
                                             </div>

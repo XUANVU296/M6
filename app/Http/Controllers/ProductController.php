@@ -15,9 +15,13 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        // $this->authorize('viewAny', Category::class);
+        $this->authorize('viewAny', Product::class);
+        $categories = Category::all();
         $keyword = $request->input('keyword');
         $status = $request->input('keyword11');
+        $category_id = $request->input('keyword22');
+        $price = $request->input('keyword33');
+        $priceValue = floatval($price);
 
         $query = Product::orderBy('id', 'DESC')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
@@ -29,16 +33,24 @@ class ProductController extends Controller
         if ($status) {
             $query = $query->where('products.status', 'like', "%$status%");
         }
+        if ($category_id) {
+            $query = $query->where('products.category_id', 'like', "%$category_id%");
+        }
+
+        if ($price) {
+            $query = $query->where('products.price', '<=', $priceValue);
+        }
+
 
         $products = $query->paginate(5);
 
-        return view('admin.products.index', compact('products', 'keyword' , 'status'));
+        return view('admin.products.index', compact('products', 'keyword', 'status', 'category_id', 'price', 'categories'));
     }
     public function create()
     {
         $categories = Category::get();
 
-        // $this->authorize('create', Category::class);
+        $this->authorize('create', Product::class);
 
         return view('admin.products.create', compact('categories'));
     }
@@ -65,17 +77,17 @@ class ProductController extends Controller
             }
             $item->save();
             Log::info('Product stored successfully. ID: ' . $item->id);
-            return redirect()->route('products.index')->with('successMessage','Thêm thành công')->with('products');
+            return redirect()->route('products.index')->with('successMessage', 'Thêm thành công')->with('products');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('errorMessage','Thêm thất bại');
+            return redirect()->route('products.index')->with('errorMessage', 'Thêm thất bại');
         }
     }
     public function edit($id)
     {
         try {
             $item = Product::findOrFail($id);
-            // $this->authorize('update',  $item);
+            $this->authorize('update',  $item);
             $categories = Category::all();
 
             $params = [
@@ -110,42 +122,42 @@ class ProductController extends Controller
             }
             $item->save();
             Log::info('Product updated', ['id' => $item->id]);
-            return redirect()->route('products.index')->with('successMessage','Cập nhật thành công');
+            return redirect()->route('products.index')->with('successMessage', 'Cập nhật thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
             return redirect()->route('products.index')->with('errorMessage', 'Cập nhật thất bại');
         } catch (QueryException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('errorMessage','Cập nhật không thành công');
+            return redirect()->route('products.index')->with('errorMessage', 'Cập nhật không thành công');
         }
     }
     public function destroy($id)
     {
         try {
             $item = Product::findOrFail($id);
-            // $this->authorize('delete', $item);
+            $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
             Log::info('Product message', ['context' => 'value']);
-            return redirect()->route('products.index')->with('successMessage','Xóa thành công');
+            return redirect()->route('products.index')->with('successMessage', 'Xóa thành công');
         } catch (ModelNotFoundException $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('errorMessage','Xóa thất bại');
+            return redirect()->route('products.index')->with('errorMessage', 'Xóa thất bại');
         } catch (QueryException  $e) {
             Log::error($e->getMessage());
-            return redirect()->route('products.index')->with('errorMessage','Xóa không thành công');
+            return redirect()->route('products.index')->with('errorMessage', 'Xóa không thành công');
         }
     }
     public function show($id)
     {
-         try {
-        $item = Product::findOrFail($id);
-        $params = [
-            'item' => $item
-        ];
-        return view("admin.products.show", $params);
-    } catch (ModelNotFoundException $e) {
-        Log::error($e->getMessage());
-        return redirect()->route('products.index')->with('error', __('sys.item_not_found'));
-    }
+        try {
+            $item = Product::findOrFail($id);
+            $params = [
+                'item' => $item
+            ];
+            return view("admin.products.show", $params);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e->getMessage());
+            return redirect()->route('products.index')->with('error', __('sys.item_not_found'));
+        }
     }
 }

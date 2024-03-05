@@ -14,7 +14,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        // $this->authorize('viewAny', Category::class);
+        $this->authorize('viewAny', Category::class);
         $keyword = $request->input('keyword');
         $categories = Category::orderBy('id', 'DESC')->paginate(4);
 
@@ -26,7 +26,7 @@ class CategoryController extends Controller
     }
     public function create()
     {
-        // $this->authorize('create', Category::class);
+        $this->authorize('create', Category::class);
 
         return view('admin.categories.create');
     }
@@ -50,7 +50,7 @@ class CategoryController extends Controller
     {
         try {
             $item = Category::findOrFail($id);
-            // $this->authorize('update',  $item);
+            $this->authorize('update',  $item);
             $params = [
                 'item' => $item
             ];
@@ -80,7 +80,7 @@ class CategoryController extends Controller
     {
         try {
             $item = Category::findOrFail($id);
-            // $this->authorize('delete', $item);
+            $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
             Log::info('Category message', ['context' => 'value']);
             return redirect()->route('categories.index')->with('successMessage','Xóa thành công');

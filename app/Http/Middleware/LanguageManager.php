@@ -1,23 +1,21 @@
 <?php
-
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\Auth;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
-
-class CheckAuth
+class LanguageManager
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            return $next($request);
+        if (session()->has('locale')) {
+            App::setLocale(session()->get('locale'));
         }
-        return redirect()->route('login');
+        return $next($request);
     }
 }

@@ -35,7 +35,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputUsername1">STT</label>
+                                <label for="exampleInputUsername1">SĐT</label>
                                 <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Nhập sđt" name="phone" value="{{ old('phone') }}" style="width: 1000px;">
                                 @error('phone') <div class="alert alert-danger">{{ $message }}</div> @enderror
 

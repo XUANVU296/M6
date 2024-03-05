@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        // $this->authorize('viewAny', User::class);
+        $this->authorize('viewAny', User::class);
         $users = User::with('groups');
 
         $users = User::all();
@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        // $this->authorize('create', User::class);
+        $this->authorize('create', User::class);
         $groups = Group::get();
         $param = [
             'groups' => $groups,
@@ -91,7 +91,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        // $this->authorize('view', User::class);
+        $this->authorize('view', User::class);
         $user = User::findOrFail($id);
         $param =[
             'user'=>$user,
@@ -104,7 +104,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('view', User::class);
+        $this->authorize('view', User::class);
         $user = User::find($id);
         $groups=Group::get();
         $param = [

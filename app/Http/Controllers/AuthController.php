@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Mail\ResetPasswordEmail;
+
 class AuthController extends Controller
 {
     public function login()
@@ -19,24 +21,24 @@ class AuthController extends Controller
             return view('admin.login');
         }
     }
+
     public function checklogin(Request $request)
     {
+        // dd($request);
         try {
             $messages = [
                 "email.exists" => "Email không đúng",
                 "password.exists" => "Mật khẩu không đúng",
             ];
             $validator = Validator::make($request->all(), [
-                'email' => 'exists:users,email',
-                'password' => 'exists:users,password',
+                'email' => 'required|email|exists:users,email',
+                'password' => 'required',
             ], $messages);
             $data = $request->only('email', 'password');
             if (Auth::attempt($data)) {
                 $previousUrl = session()->pull('previous_url', '/dashboard');
                 if ($previousUrl === route('/login-admin')) {
-                    return redirect('categories')->with('successMessage', 'Đăng nhập thành công');
-                } else {
-                    return redirect()->intended($previousUrl)->with('successMessage', 'Đăng nhập thành công');
+                    return redirect()->route('categories.index')->with('successMessage', 'Đăng nhập thành công');
                 }
             } else {
                 return redirect()->back()->with('errorMessage', 'Đăng nhập thất bại');
@@ -80,9 +82,9 @@ class AuthController extends Controller
         $user->token = $token;
         $user->reset_at = now();
         $user->save();
-        Mail::send('forgetPass',compact('user'), function($email) use ($user){
+        Mail::send('forgetPass', compact('user'), function ($email) use ($user) {
             $email->subject('Forgot Password');
-            $email->to($user->email, $user->name );
+            $email->to($user->email, $user->name);
         });
         return back()->with('message', 'Vui lòng kiểm tra email của bạn!');
     }
