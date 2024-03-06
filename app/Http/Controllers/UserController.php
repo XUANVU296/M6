@@ -84,7 +84,7 @@ class UserController extends Controller
 
 
 
-        return redirect()->route('user.index')->with('success', __('sys.store_item_success12'));
+        return redirect()->route('user.index')->with('successMessage','Đăng ký tài khoản thành công');
     }
 
     public function show(User $user, $id)
@@ -131,7 +131,7 @@ class UserController extends Controller
             'message' => 'Chỉnh Sửa Thành Công!',
             'alert-type' => 'success'
         ];
-        return redirect()->route('user.index')->with($successMessage);
+        return redirect()->route('user.index')->with('successMessage','Cập nhật thành công');
     }
     // hiển thị form đổi mật khẩu
     public function editpass($id)
@@ -226,6 +226,7 @@ class UserController extends Controller
             $user->delete();
         }
         else{
+            return redirect()->route('user.index')->with('successMessage','Xóa thành công');
             return dd(__METHOD__);
         }
     }
