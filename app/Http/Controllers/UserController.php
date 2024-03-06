@@ -13,20 +13,21 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    public function index() {
-        $this->authorize('viewAny', User::class);
+    public function index()
+{
+    $this->authorize('viewAny', User::class);
 
-        // Lấy danh sách người dùng
-        $users = User::with('groups')->get();
+    // Lấy danh sách người dùng
+    $users = User::with('group')->get();
 
-        // Truyền dữ liệu sang view
-        $param = [
-            'users' => $users,
-        ];
+    // Truyền dữ liệu sang view
+    $param = [
+        'users' => $users,
+    ];
 
-        // Hiển thị view
-        return view('admin.users.index', $param);
- }
+    // Hiển thị view
+    return view('admin.users.index', $param);
+}
     public function showAdmin() {
         $admins = User::get();
         $param = [
@@ -152,7 +153,7 @@ public function update(UpdateUserRequest $request, $id)
         if (!$user) {
             throw new \Exception('User not found.');
         }
-        
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
@@ -278,7 +279,7 @@ public function update(UpdateUserRequest $request, $id)
         }
         else{
             return redirect()->route('user.index')->with('successMessage','Xóa thành công');
-            return dd(__METHOD__);
+            // return dd(__METHOD__);
         }
     }
 }
