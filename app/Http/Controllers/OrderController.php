@@ -15,6 +15,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Order::class);
         $customers = Customer::all();
         $query = Order::orderBy('id', 'DESC');
     
@@ -32,7 +33,6 @@ class OrderController extends Controller
             // Chuyển ngày tháng sang định dạng Y-m-d
             $startDateFormatted = Carbon::parse($startDate)->startOfDay();
             $endDateFormatted = Carbon::parse($endDate)->endOfDay();
-    
             // Tìm kiếm các đơn hàng trong khoảng thời gian từ start_date đến end_date
             $query->whereBetween('date', [$startDateFormatted, $endDateFormatted]);
         }
@@ -61,6 +61,7 @@ class OrderController extends Controller
     }
 public function create()
 {
+    // $this->authorize('create', Order::class);
     $customers = Customer::all();
     $products = Product::all();
     return view('admin.orders.create', compact('customers','products'));
@@ -82,9 +83,9 @@ public function store(StoreOrderRequest $request)
         return redirect()->route('orders.index')->with('errorMessage','Thêm thất bại');
     }
 }
-public function destroy($id)
-    {
+    public function destroy($id) {
         try {
+            $this->authorize('delete', Order::class);
             $item = Order::findOrFail($id);
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác

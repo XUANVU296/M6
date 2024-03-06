@@ -13,21 +13,26 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    public function index()
-    {
+    public function index() {
+     try {
         $this->authorize('viewAny', User::class);
-        $users = User::with('groups');
 
-        $users = User::all();
-        // $users = User::search()->paginate(4);
+        // Lấy danh sách người dùng
+        $users = User::with('groups')->get();
+
+        // Truyền dữ liệu sang view
         $param = [
             'users' => $users,
         ];
-        return view('admin.users.index', $param);
-    }
 
-    public function showAdmin()
-    {
+        // Hiển thị view
+        return view('admin.users.index', $param);
+     } catch (\Exception $e) {
+        // Xử lý ngoại lệ
+        return back()->withError($e->getMessage());
+     }
+ }
+    public function showAdmin() {
         $admins = User::get();
         $param = [
             'admins' => $admins,
@@ -40,14 +45,26 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+{
+    try {
         $this->authorize('create', User::class);
+
+        // Lấy danh sách các nhóm
         $groups = Group::get();
+
+        // Truyền dữ liệu sang view
         $param = [
             'groups' => $groups,
         ];
+
+        // Hiển thị view
         return view('admin.users.add', $param);
+    } catch (\Exception $e) {
+        // Xử lý ngoại lệ
+        return back()->withError($e->getMessage());
     }
+}
+
     /**
      * Store a newly created resource in storage.
      *
@@ -55,7 +72,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUserRequest $request)
-    {
+{
+    try {
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -65,27 +83,29 @@ class UserController extends Controller
         // $user->birthday = $request->birthday;
         // $user->position = $request->position;
         $user->group_id = $request->group_id;
+
         $fieldName = 'image';
-            if ($request->hasFile($fieldName)) {
-                $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-                $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-                $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-                $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-                $path = 'storage/' . $request->file($fieldName)->storeAs('public/images', $fileName);
-                $path = str_replace('public/', '', $path);
-                $user->image = $path;
-            }
+        if ($request->hasFile($fieldName)) {
+            // Xử lý tải lên hình ảnh mới nếu có
+            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
+            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
+            $extension = $request->file($fieldName)->getClientOriginalExtension();
+            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extension;
+            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images', $fileName);
+            $path = str_replace('public/', '', $path);
+            $user->image = $path;
+        }
+
+        // Lưu thông tin người dùng
         $user->save();
 
-        $data = [
-            'name' => $request->name,
-            'pass' => $request->password,
-        ];
-
-
-
-        return redirect()->route('user.index')->with('success', __('sys.store_item_success12'));
+        return redirect()->route('user.index')->with('successMessage', 'Thêm thành công');
+    } catch (\Exception $e) {
+        // Xử lý ngoại lệ
+        return back()->withError($e->getMessage());
     }
+}
+
 
     public function show(User $user, $id)
     {
@@ -102,37 +122,69 @@ class UserController extends Controller
     }
 
     public function edit($id)
-    {
+{
+    try {
         $this->authorize('view', User::class);
-        $user = User::find($id);
-        $groups=Group::get();
+
+        // Lấy thông tin người dùng cần chỉnh sửa
+        $user = User::findOrFail($id);
+
+        // Lấy danh sách các nhóm
+        $groups = Group::get();
+
+        // Truyền dữ liệu sang view
         $param = [
-            'user' => $user ,
+            'user' => $user,
             'groups' => $groups
         ];
-        return view('admin.users.edit', $param);
-    }
 
-    public function update(UpdateUserRequest $request, $id)
-    {
+        // Hiển thị view
+        return view('admin.users.edit', $param);
+    } catch (\Exception $e) {
+        // Xử lý ngoại lệ
+        return back()->withError($e->getMessage());
+    }
+}
+
+
+public function update(UpdateUserRequest $request, $id)
+{
+    try {
         $user = User::find($id);
+        if (!$user) {
+            throw new \Exception('User not found.');
+        }
+        
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->phone = $request->phone;
+        $user->gender = $request->gender;
         $user->group_id = $request->group_id;
         $fieldName = 'image';
         if ($request->hasFile($fieldName)) {
-            $path = $request->file($fieldName)->store('public/images');
-            $user->image = str_replace('public/', '', $path);
+            // Xử lý tải lên hình ảnh mới nếu cần thiết
+            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
+            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
+            $extension = $request->file($fieldName)->getClientOriginalExtension();
+            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extension;
+            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images', $fileName);
+            $path = str_replace('public/', '', $path);
+            $user->image = $path;
         }
         $user->save();
+
         $successMessage = [
             'message' => 'Chỉnh Sửa Thành Công!',
             'alert-type' => 'success'
         ];
-        return redirect()->route('user.index')->with($successMessage);
+        return redirect()->route('users.index')->with($successMessage);
+    } catch (\Exception $e) {
+        // Xử lý ngoại lệ
+        return back()->withError($e->getMessage());
     }
+}
+
     // hiển thị form đổi mật khẩu
     public function editpass($id)
     {
@@ -141,7 +193,7 @@ class UserController extends Controller
         $param =[
             'user'=>$user,
         ];
-        return view('user.editpass', $param);
+        return view('users.editpass', $param);
     }
 
      // hiển thị form đổi mật khẩu
@@ -152,7 +204,7 @@ class UserController extends Controller
          $param =[
              'user'=>$user,
          ];
-         return view('user.adminpass', $param);
+         return view('users.adminpass', $param);
      }
 
     // chỉ có superAdmin mới có quyền đổi mật khẩu người kh
@@ -168,7 +220,7 @@ class UserController extends Controller
                 'message' => 'Đổi mật khẩu thành công!',
                 'alert-type' => 'success'
             ];
-            return redirect()->route('user.index')->with($notification);
+            return redirect()->route('users.index')->with($notification);
         } else {
             $notification = [
                 'sainhap' => 'Bạn nhập mật khẩu không trùng khớp!',
@@ -190,7 +242,7 @@ class UserController extends Controller
                     'message' => 'Đổi mật khẩu thành công!',
                     'alert-type' => 'success'
                 ];
-                return redirect()->route('user.index')->with($notification);
+                return redirect()->route('users.index')->with($notification);
             }else{
                 // dd($request);
                 $notification = [

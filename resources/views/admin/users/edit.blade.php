@@ -17,7 +17,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Chỉnh sửa tài khoản nhân sự</h4>
-                            <form action="{{ route('user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="mb-3">
@@ -88,7 +88,7 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-secondary me-2">Cập nhật</button>
-                                <a href="{{ route('user.index') }}" class="btn btn-light">Trở về</a>
+                                <a href="{{ route('users.index') }}" class="btn btn-light">Trở về</a>
                             </form>
                         </div>
                     </div>

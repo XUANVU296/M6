@@ -20,25 +20,25 @@ class UpdateUserRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        $userId = $this->route('user') ? $this->route('user') : null;
+{
     
-        return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.($userId ? $userId->id : null),
-            'phone' => 'required|numeric|unique:users,phone,'.($userId ? $userId->id : null),
-        ];
-    }
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'Không được để trống trường này',
-            'email.required' => 'Email không được để trống',
-            'email.email' => 'Email không đúng định dạng',
-            'email.unique' => 'Email này đã tồn tại trên hệ thống',
-            'phone.required' => 'Số điện thoại không được để trống',
-            'phone.numeric' => 'Bắt buộc phải nhập số',
-            'phone.unique' => 'Số điện thoại này đã tồn tại trên hệ thống',
-        ];
-    }
+    return [
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email,'.$this->id,
+        'phone' => 'required|numeric|unique:users,phone,'.$this->id.'',
+    ];
+}
+
+public function messages(): array
+{
+    return [
+        'name.required' => 'Tên không được để trống.',
+        'email.required' => 'Email không được để trống.',
+        'email.email' => 'Email không đúng định dạng.',
+        'email.unique' => 'Email này đã tồn tại trên hệ thống.',
+        'phone.required' => 'Số điện thoại không được để trống.',
+        'phone.numeric' => 'Số điện thoại phải là số.',
+        'phone.unique' => 'Số điện thoại này đã tồn tại trên hệ thống.',
+    ];
+}
 }
