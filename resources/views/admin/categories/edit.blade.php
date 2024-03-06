@@ -1,10 +1,18 @@
 @extends('admin')
 
 @section('content')
+<style>
+    .center-form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
+            <div class="col-md-6 grid-margin stretch center-form">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Chỉnh sửa</h4>

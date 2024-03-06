@@ -194,7 +194,7 @@
                                                 {{ $order->date }}
                                             </td>
                                             <td>
-                                                {{ $order->total_amount }}
+                                                {{ $order->total_amount }} 000 VNĐ
                                             </td>
                                             <td>
                                                 <div class="dropdown">

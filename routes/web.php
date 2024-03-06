@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('customers', \App\Http\Controllers\CustomerController::class);
     Route::resource('products', \App\Http\Controllers\ProductController::class);
 });
-Route::resource('groups', \App\Http\Controllers\GroupController::class);
+
     Route::resource('groups', \App\Http\Controllers\GroupController::class);
     Route::resource('orders', \App\Http\Controllers\OrderController::class);
     Route::delete('/orders/trash/{id}', [\App\Http\Controllers\OrderController::class, 'delete'])->name('orders.trash');
@@ -42,18 +42,19 @@ Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name
 Route::get('/edit/{id}', [GroupController::class, 'edit'])->name('group.edit');
 Route::delete('destroy/{id}', [GroupController::class, 'destroy'])->name('group.destroy');
 
-Route::group(['prefix' => '/'], function () {
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/store', [UserController::class, 'store'])->name('user.store');
-    Route::get('/show/{id}', [UserController::class, 'show'])->name('user.show');
-    Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/update/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-    Route::get('/editpass/{id}', [UserController::class, 'editpass'])->name('user.editpass');
-    Route::put('/updatepass/{id}', [UserController::class, 'updatepass'])->name('user.updatepass');
-    Route::get('/adminpass/{id}', [UserController::class, 'adminpass'])->name('user.adminpass');
-    Route::put('/adminUpdatePass/{id}', [UserController::class, 'adminUpdatePass'])->name('user.adminUpdatePass');
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/', [UserController::class, 'store'])->name('users.store');
+    Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/editpass/{id}', [UserController::class, 'editpass'])->name('users.editpass');
+    Route::put('/updatepass/{id}', [UserController::class, 'updatepass'])->name('users.updatepass');
+    Route::get('/adminpass/{id}', [UserController::class, 'adminpass'])->name('users.adminpass');
+    Route::put('/adminUpdatePass/{id}', [UserController::class, 'adminUpdatePass'])->name('users.adminUpdatePass');
 });
 
 

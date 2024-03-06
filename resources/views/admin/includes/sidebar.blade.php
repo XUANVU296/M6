@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{ asset('css/typeahead.css')}}">
 <link rel="stylesheet" href="{{ asset('css/select2.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
@@ -36,7 +37,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{route('user.index')}}">
+            <a class="nav-link" href="{{route('users.index')}}">
                 <i class="mdi mdi-account-group menu-icon"></i>
                 <span class="menu-title">Nhân sự</span>
             </a>

@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Thêm mới tài khoản nhân sự</h4>
-                        <form action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route('users.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Ảnh</label>
@@ -70,7 +70,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-secondary me-2">Thêm</button>
-                            <a href="{{route('user.index')}}" class="btn btn-light">Trở về</a>
+                            <a href="{{route('users.index')}}" class="btn btn-light">Trở về</a>
                         </form>
                     </div>
                 </div>
