@@ -60,7 +60,7 @@ class GroupController extends Controller
         $userGroup->save();
         try {
             $userGroup->save();
-            return redirect()->route('groups.index')->with('success', __('Thêm thành công'));
+            return redirect()->route('groups.index')->with('successMessage','Thêm thành công');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('groups.index')->with('error', __('Thêm thất bại'));
@@ -114,7 +114,7 @@ class GroupController extends Controller
         $group = Group::find($id);
         $group->delete();
 
-        return redirect()->route('groups.index');
+        return redirect()->route('groups.index')->with('successMessage','Xóa thành công');
     }
      /**
      * Show the form for editing the specified resource.
@@ -162,7 +162,7 @@ class GroupController extends Controller
             $group->role()->detach();
             $group->role()->attach($request->roles);
 
-            return redirect()->route('groups.index')->with('success', __('sys.store_item_success11'));
+            return redirect()->route('groups.index')->with('successMessage','Cấp quyền thành công');
         } catch (\Exception $e) {
             return redirect()->route('groups.index')->with('error', __('Cấp quyền thất bại'));
         }

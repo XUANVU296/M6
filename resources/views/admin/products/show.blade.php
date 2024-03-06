@@ -11,7 +11,7 @@
                 <div class="col-12">
                         <div class="mb-3">
                             <label class="form-label" for="ecommerce-customer-name">Giá</label>
-                            <input type="text" class="form-control" placeholder="Mô tả" name="price" value="{{ $item->price }}">
+                            <input type="text" class="form-control" placeholder="Mô tả" name="price" value="{{ number_format($item->price) }}">
                         </div>
                     </div>
 

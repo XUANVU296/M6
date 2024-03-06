@@ -13,7 +13,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="{{route('products.index')}}">
+            <a class="nav-link" href="http://127.0.0.1:8000/admin">
                 <i class="mdi mdi-home menu-icon"></i>
                 <span class="menu-title">Trang chủ</span>
             </a>

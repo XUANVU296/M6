@@ -99,10 +99,13 @@ class UserController extends Controller
         // Lưu thông tin người dùng
         $user->save();
 
+        return redirect()->route('user.index')->with('successMessage','Đăng ký tài khoản thành công');
+
         return redirect()->route('user.index')->with('successMessage', 'Thêm thành công');
     } catch (\Exception $e) {
         // Xử lý ngoại lệ
         return back()->withError($e->getMessage());
+
     }
 }
 
@@ -178,6 +181,7 @@ public function update(UpdateUserRequest $request, $id)
             'message' => 'Chỉnh Sửa Thành Công!',
             'alert-type' => 'success'
         ];
+        return redirect()->route('user.index')->with('successMessage','Cập nhật thành công');
         return redirect()->route('users.index')->with($successMessage);
     } catch (\Exception $e) {
         // Xử lý ngoại lệ
@@ -278,6 +282,7 @@ public function update(UpdateUserRequest $request, $id)
             $user->delete();
         }
         else{
+            return redirect()->route('user.index')->with('successMessage','Xóa thành công');
             return dd(__METHOD__);
         }
     }

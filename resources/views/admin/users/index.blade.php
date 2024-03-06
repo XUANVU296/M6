@@ -12,8 +12,7 @@
                             @if(session('successMessage'))
                             Swal.fire({
                                 icon: 'success',
-                                text: '{{ session('
-                                successMessage ') }}',
+                                text: '{{ session('successMessage') }}',
                                 confirmButtonText: 'Đóng'
                             });
                             @endif
@@ -22,8 +21,7 @@
                             @if(session('errorMessage'))
                             Swal.fire({
                                 icon: 'error',
-                                text: '{{ session('
-                                errorMessage ') }}',
+                                text: '{{ session('errorMessage') }}',
                                 confirmButtonText: 'Đóng'
                             });
                             @endif

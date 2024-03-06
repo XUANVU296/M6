@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserController;
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
+// Route::get('/a', function () {
+//     return view('admin.index');
 // });
+Route::get('/admin', [AdminController::class, 'index'])->name('index');
+
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/checklogin', [AuthController::class, 'checklogin'])->name('checklogin');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
