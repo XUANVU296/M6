@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Log;
 class UserController extends Controller
 {
     public function index() {
-     try {
         $this->authorize('viewAny', User::class);
 
         // Lấy danh sách người dùng
@@ -27,10 +26,6 @@ class UserController extends Controller
 
         // Hiển thị view
         return view('admin.users.index', $param);
-     } catch (\Exception $e) {
-        // Xử lý ngoại lệ
-        return back()->withError($e->getMessage());
-     }
  }
     public function showAdmin() {
         $admins = User::get();
