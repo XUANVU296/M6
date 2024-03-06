@@ -38,14 +38,11 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputUsername1">Mô tả</label>
-                                    <input type="text" class="form-control" id="exampleInputUsername1"
-                                        placeholder="Nhập mô tả" name="description" value="{{ $item->description }}"
-                                        style="width: 750px;;">
+                                    <label for="description">Mô tả</label>
+                                    <textarea class="form-control" id="description" name="description" style="width: 750px;">{{ $item->description }}</textarea>
                                     @error('description')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
-
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Giá</label>
@@ -100,4 +97,11 @@
             </div>
         </div>
     </div>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#description'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 @endsection
