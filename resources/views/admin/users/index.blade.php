@@ -31,7 +31,7 @@
                         <div class="panel-heading">
                             <h2 class="offset-4">Danh Sách Nhóm Nhân Sự</h2>
                         </div>
-                        <a href="{{ route('user.create') }}" class="card-title">Đăng ký tài khoản nhân sự</a>
+                        <a href="{{ route('users.create') }}" class="card-title">Đăng ký tài khoản nhân sự</a>
 
                         <p class="card-description">
                         </p>
@@ -63,11 +63,11 @@
                                                 <div class="dropdown-menu">
                                                     @if (Auth::user()->hasPermission('User_update'))
 
-                                                    <a class="dropdown-item" href="{{ route('user.edit', $user->id) }}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
+                                                    <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}"><i class="bx bx-edit-alt me-1"></i> Sửa</a>
                                                     @endif
                                                     @if (Auth::user()->hasPermission('User_delete'))
 
-                                                    <form method="POST" action="{{ route('user.destroy', $user->id) }}">
+                                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="dropdown-item" onclick="return confirm('Bạn có muốn xóa ?')"><i class="bx bx-trash me-1"></i> Xóa</button>

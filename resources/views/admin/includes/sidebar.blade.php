@@ -36,7 +36,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{route('user.index')}}">
+            <a class="nav-link" href="{{route('users.index')}}">
                 <i class="mdi mdi-account-group menu-icon"></i>
                 <span class="menu-title">Nhân sự</span>
             </a>
