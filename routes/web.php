@@ -42,15 +42,16 @@ Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name
 Route::get('/edit/{id}', [GroupController::class, 'edit'])->name('group.edit');
 Route::delete('destroy/{id}', [GroupController::class, 'destroy'])->name('group.destroy');
 
+
+
 Route::group(['prefix' => 'users'], function () {
-    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/index', [UserController::class, 'index'])->name('users.index');
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/', [UserController::class, 'store'])->name('users.store');
+    Route::post('/store', [UserController::class, 'store'])->name('users.store');
     Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
     Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
     Route::get('/editpass/{id}', [UserController::class, 'editpass'])->name('users.editpass');
     Route::put('/updatepass/{id}', [UserController::class, 'updatepass'])->name('users.updatepass');
     Route::get('/adminpass/{id}', [UserController::class, 'adminpass'])->name('users.adminpass');
