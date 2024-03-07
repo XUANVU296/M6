@@ -24,7 +24,7 @@ class AuthController extends Controller
 
     public function checklogin(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         try {
             $messages = [
                 "email.exists" => "Email không đúng",
