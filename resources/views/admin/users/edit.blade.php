@@ -13,7 +13,7 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row justify-content-center">
-                <div class="col-md-8 grid-margin stretch-card">
+                <div class="col-md-8 grid-margin stretch-card center-form">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Chỉnh sửa tài khoản nhân sự</h4>
