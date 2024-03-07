@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     public function index(Request $request)
-    {
+{
+    try {
         $this->authorize('viewAny', Product::class);
         $categories = Category::all();
         $keyword = $request->input('keyword');
@@ -41,19 +42,29 @@ class ProductController extends Controller
             $query = $query->where('products.price', '<=', $priceValue);
         }
 
-
         $products = $query->paginate(5);
 
         return view('admin.products.index', compact('products', 'keyword', 'status', 'category_id', 'price', 'categories'));
+    } catch (\Exception $exception) {
+        // Xử lý lỗi ở đây nếu cần
+        // Ví dụ: Log lỗi, chuyển hướng người dùng, hiển thị thông báo lỗi, v.v.
+        return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi khi hiển thị danh sách sản phẩm');
     }
+}
+
     public function create()
-    {
+{
+    try {
         $categories = Category::get();
-
         $this->authorize('create', Product::class);
-
         return view('admin.products.create', compact('categories'));
+    } catch (\Exception $exception) {
+        // Xử lý lỗi ở đây nếu cần
+        // Ví dụ: Log lỗi, chuyển hướng người dùng, hiển thị thông báo lỗi, v.v.
+        return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi khi tạo sản phẩm');
     }
+}
+
 
     public function store(StoreProductRequest $request)
     {

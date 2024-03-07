@@ -10,11 +10,13 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\StoreOrderRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
 {
     public function index(Request $request)
-    {
+{
+    try {
         $this->authorize('viewAny', Order::class);
         $customers = Customer::all();
         $query = Order::orderBy('id', 'DESC');
@@ -58,14 +60,24 @@ class OrderController extends Controller
         }
         $orders = $query->paginate(3);
         return view('admin.orders.index', compact('orders','customers'));
+    } catch (ModelNotFoundException $exception) {
+        return redirect()->back()->with('errorMessage', 'Không tìm thấy dữ liệu đơn hàng');
+    } catch (\Exception $exception) {
+        return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi. Vui lòng thử lại sau');
     }
+}
 public function create()
 {
-    // $this->authorize('create', Order::class);
-    $customers = Customer::all();
-    $products = Product::all();
-    return view('admin.orders.create', compact('customers','products'));
+    try {
+        // $this->authorize('create', Order::class);
+        $customers = Customer::all();
+        $products = Product::all();
+        return view('admin.orders.create', compact('customers','products'));
+    } catch (\Exception $exception) {
+        return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi. Vui lòng thử lại sau');
+    }
 }
+
 public function store(StoreOrderRequest $request)
 {
     try {
@@ -99,18 +111,34 @@ public function store(StoreOrderRequest $request)
         }
     }
     public function show($id) {
-        $item = Order::with('products')->find($id);
-        return view('admin.orders.show', compact('item'));
+        try {
+            $item = Order::with('products')->findOrFail($id);
+            return view('admin.orders.show', compact('item'));
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('errorMessage', 'Không tìm thấy đơn hàng');
+        }
     }
+    
     public function delete($id) {
-        $item = Order::findOrFail($id);
-        $item->delete();
-        return redirect()->route('orders.index')->with('successMessage','Xóa đơn hàng thành công');
+        try {
+            $item = Order::findOrFail($id);
+            $item->delete();
+            return redirect()->route('orders.index')->with('successMessage','Xóa đơn hàng thành công');
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi khi xóa đơn hàng. Vui lòng thử lại sau');
+        }
     }
+    
     public function updateStatus(Request $request, $id) {
-        $order = Order::findOrFail($id);
-        $order->order_status = $request->order_status;
-        $order->save();
-        return redirect()->back()->with('successMessage','Cập nhật trạng thái thành công');
+        try {
+            $order = Order::findOrFail($id);
+            $order->order_status = $request->order_status;
+            $order->save();
+            return redirect()->back()->with('successMessage', 'Cập nhật trạng thái thành công');
+        } catch (ModelNotFoundException $exception) {
+            return redirect()->back()->with('errorMessage', 'Không tìm thấy đơn hàng');
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi. Vui lòng thử lại sau');
+        }
     }
 }

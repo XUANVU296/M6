@@ -15,19 +15,26 @@ class UserController extends Controller
 {
     public function index()
 {
-    $this->authorize('viewAny', User::class);
+    try {
+        $this->authorize('viewAny', User::class);
 
-    // Lấy danh sách người dùng
-    $users = User::with('group')->get();
+        // Lấy danh sách người dùng
+        $users = User::with('group')->get();
 
-    // Truyền dữ liệu sang view
-    $param = [
-        'users' => $users,
-    ];
+        // Truyền dữ liệu sang view
+        $param = [
+            'users' => $users,
+        ];
 
-    // Hiển thị view
-    return view('admin.users.index', $param);
+        // Hiển thị view
+        return view('admin.users.index', $param);
+    } catch (\Exception $exception) {
+        // Xử lý lỗi ở đây nếu cần
+        // Ví dụ: Log lỗi, chuyển hướng người dùng, hiển thị thông báo lỗi, v.v.
+        return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi khi hiển thị danh sách người dùng');
+    }
 }
+
     public function showAdmin() {
         $admins = User::get();
         $param = [
