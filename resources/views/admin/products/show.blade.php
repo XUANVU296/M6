@@ -25,7 +25,9 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label class="form-label" for="ecommerce-customer-name">Mô tả</label>
-                            <input type="text" class="form-control" placeholder="Mô tả" name="description" value="{{ $item->description }}">
+                            <p>{!!$item->description !!}</p>
+                            <small id="" class="form-text text-muted"></small>
+
                         </div>
                     </div>
 

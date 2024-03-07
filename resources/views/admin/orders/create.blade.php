@@ -1,14 +1,7 @@
 @extends('admin')
 
 @section('content')
-    <style>
-        .center-form {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
+    
      <script>
         @if (session('successMessage'))
             Swal.fire({

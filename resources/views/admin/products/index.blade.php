@@ -43,14 +43,14 @@
                                     <input name="keyword33" class="form-control" type="text" placeholder="Tìm giá" value="{{ request('keyword33') }}" />
                                 </div> -->
                                 <div class="col-lg-3 flex-grow-4">
-                                    <select name="keyword11" class="form-control">
+                                    <select name="status" class="form-control">
                                         <option value="">Trạng thái</option>
-                                        <option value="Còn" {{ request('keyword11') === 'Còn' ? 'selected' : '' }}>Còn</option>
-                                        <option value="Hết" {{ request('keyword11') === 'Hết' ? 'selected' : '' }}>Hết</option>
+                                        <option value="Còn" {{ request('status') === 'Còn' ? 'selected' : '' }}>Còn</option>
+                                        <option value="Hết" {{ request('status') === 'Hết' ? 'selected' : '' }}>Hết</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select name="keyword22" class="form-control">
+                                    <select name="category_id" class="form-control">
                                         <option value="">Danh mục</option>
                                         @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" {{ $category_id == $category->id ? 'selected' : '' }}>

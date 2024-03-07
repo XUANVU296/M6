@@ -97,11 +97,8 @@ class GroupController extends Controller
         $group = Group::find($id);
         $group->name = $request->name;
         $group->save();
-        $notification = [
-            'message' => 'Chỉnh Sửa Thành Công!',
-            'alert-type' => 'success'
-        ];
-        return redirect()->route('groups.index')->with($notification);
+
+        return redirect()->route('groups.index')->with('successMessage', 'Cập nhật thành công');
     }
     /**
      * Remove the specified resource from storage.

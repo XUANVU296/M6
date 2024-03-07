@@ -1,15 +1,7 @@
 @extends('admin')
 
 @section('content')
-    <style>
-        .justify-content-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            /* Đảm bảo form nằm giữa màn hình theo chiều dọc */
-        }
-    </style>
+  
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row justify-content-center">

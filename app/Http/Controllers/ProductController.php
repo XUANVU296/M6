@@ -18,9 +18,9 @@ class ProductController extends Controller
         $this->authorize('viewAny', Product::class);
         $categories = Category::all();
         $keyword = $request->input('keyword');
-        $status = $request->input('keyword11');
-        $category_id = $request->input('keyword22');
-        $price = $request->input('keyword33');
+        $status = $request->input('status');
+        $category_id = $request->input('category_id');
+        $price = $request->input('price');
         $priceValue = floatval($price);
 
         $query = Product::orderBy('id', 'DESC')

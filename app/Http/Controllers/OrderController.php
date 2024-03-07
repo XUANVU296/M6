@@ -18,7 +18,7 @@ class OrderController extends Controller
         $this->authorize('viewAny', Order::class);
         $customers = Customer::all();
         $query = Order::orderBy('id', 'DESC');
-    
+
         if ($request->filled('search_name') || $request->filled('search_phone') || $request->filled('search_status')) {
             $query->whereHas('customers', function ($query) use ($request) {
                 if ($request->filled('search_name')) {
@@ -29,7 +29,7 @@ class OrderController extends Controller
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
-    
+
             // Chuyển ngày tháng sang định dạng Y-m-d
             $startDateFormatted = Carbon::parse($startDate)->startOfDay();
             $endDateFormatted = Carbon::parse($endDate)->endOfDay();
@@ -85,7 +85,7 @@ public function store(StoreOrderRequest $request)
 }
     public function destroy($id) {
         try {
-            $this->authorize('delete', Order::class);
+            // $this->authorize('delete', Order::class);
             $item = Order::findOrFail($id);
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
