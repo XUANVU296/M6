@@ -22,12 +22,12 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required:categories',
-            'description' => 'required:categories',
-            'price' => 'required|numeric:categories',
-            'quantity' => 'required|numeric:categories',
-            'status' => 'required:categories',
-            'category_id' => 'required:categories',
+            'name' => 'required:products',
+            'description' => 'required:products',
+            'price' => 'required|numeric:products',
+            'quantity' => 'required|numeric:products',
+            'status' => 'required:products',
+            'category_id' => 'required:products',
 
 
         ];

@@ -49,7 +49,6 @@ class UserController extends Controller
      */
     public function create()
 {
-    try {
         $this->authorize('create', User::class);
 
         // Lấy danh sách các nhóm
@@ -62,10 +61,7 @@ class UserController extends Controller
 
         // Hiển thị view
         return view('admin.users.add', $param);
-    } catch (\Exception $e) {
-        // Xử lý ngoại lệ
-        return back()->withError($e->getMessage());
-    }
+
 }
 
     /**
@@ -102,9 +98,9 @@ class UserController extends Controller
         // Lưu thông tin người dùng
         $user->save();
 
-        return redirect()->route('user.index')->with('successMessage','Đăng ký tài khoản thành công');
+        return redirect()->route('users.index')->with('successMessage','Đăng ký tài khoản thành công');
 
-        return redirect()->route('user.index')->with('successMessage', 'Thêm thành công');
+        return redirect()->route('users.index')->with('successMessage', 'Thêm thành công');
     } catch (\Exception $e) {
         // Xử lý ngoại lệ
         return back()->withError($e->getMessage());
@@ -129,7 +125,6 @@ class UserController extends Controller
 
     public function edit($id)
 {
-    try {
         $this->authorize('view', User::class);
 
         // Lấy thông tin người dùng cần chỉnh sửa
@@ -146,10 +141,7 @@ class UserController extends Controller
 
         // Hiển thị view
         return view('admin.users.edit', $param);
-    } catch (\Exception $e) {
-        // Xử lý ngoại lệ
-        return back()->withError($e->getMessage());
-    }
+
 }
 
 
@@ -184,7 +176,7 @@ public function update(UpdateUserRequest $request, $id)
             'message' => 'Chỉnh Sửa Thành Công!',
             'alert-type' => 'success'
         ];
-        return redirect()->route('user.index')->with('successMessage','Cập nhật thành công');
+        return redirect()->route('users.index')->with('successMessage','Cập nhật thành công');
         return redirect()->route('users.index')->with($successMessage);
     } catch (\Exception $e) {
         // Xử lý ngoại lệ
@@ -275,18 +267,15 @@ public function update(UpdateUserRequest $request, $id)
      */
     public function destroy($id)
     {
-      $this->authorize('forceDelete', Product::class);
-        $notification = [
-            'sainhap' => '!',
-        ];
+        $this->authorize('forceDelete', Product::class);
 
-        $user = User::find($id);
-        if($user->group->name!='Super Admin'){
+        $user = User::findOrFail($id);
+
+        if ($user->group->name !== 'Super Admin') {
             $user->delete();
+        } else {
+            return redirect()->route('users.index')->with('successMessage', 'Xóa thành công');
         }
-        else{
-            return redirect()->route('user.index')->with('successMessage','Xóa thành công');
-            // return dd(__METHOD__);
-        }
+
     }
 }
