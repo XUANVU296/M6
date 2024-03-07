@@ -22,7 +22,7 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required:products',
+            'name' => 'required|numeric:products',
             'description' => 'required:products',
             'price' => 'required|numeric:products',
             'quantity' => 'required|numeric:products',
@@ -37,6 +37,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name.required' => 'Trường bắt buộc nhập.',
+            'name.numeric' => 'Tên sản phẩm đã tồn tại.',
             'description.required' => 'Trường bắt buộc nhập.',
             'price.required' => 'Trường bắt buộc nhập.',
             'price.numeric' => 'Trường bắt buộc nhập số.',
