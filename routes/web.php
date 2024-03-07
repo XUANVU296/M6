@@ -35,7 +35,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('groups', \App\Http\Controllers\GroupController::class);
     Route::resource('orders', \App\Http\Controllers\OrderController::class);
-    Route::delete('/orders/trash/{id}', [\App\Http\Controllers\OrderController::class, 'delete'])->name('orders.trash');
+    Route::get('/orders/trash/{id}', [\App\Http\Controllers\OrderController::class, 'delete'])->name('orders.trash');
+    Route::patch('/orders/show/{id}', [\App\Http\Controllers\OrderController::class, 'updateStatus'])->name('orders.update.status');
+
 // });
 Route::get('/detail/{id}', [GroupController::class, 'detail'])->name('group.detail');
 Route::put('/group_detail/{id}', [GroupController::class, 'group_detail'])->name('group.group_detail');

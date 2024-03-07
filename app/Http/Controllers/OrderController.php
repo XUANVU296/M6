@@ -107,4 +107,10 @@ public function store(StoreOrderRequest $request)
         $item->delete();
         return redirect()->route('orders.index')->with('successMessage','Xóa đơn hàng thành công');
     }
+    public function updateStatus(Request $request, $id) {
+        $order = Order::findOrFail($id);
+        $order->order_status = $request->order_status;
+        $order->save();
+        return redirect()->back()->with('successMessage','Cập nhật trạng thái thành công');
+    }
 }
