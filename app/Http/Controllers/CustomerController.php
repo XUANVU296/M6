@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -44,6 +45,7 @@ public function store(StoreCustomerRequest $request)
         $item->name = $request->name;
         $item->email = $request->email;
         $item->phone = $request->phone;
+        $item->password = Hash::make($request->password);
         $item->save();
         Log::info('Customer stored successfully. ID: ' . $item->id);
         return redirect()->route('customers.index')->with('successMessage','Thêm khách hàng thành công');
@@ -55,8 +57,8 @@ public function store(StoreCustomerRequest $request)
 public function edit($id)
     {
         try {
-            $this->authorize('update', Customer::class);
             $item = Customer::findOrFail($id);
+            // $this->authorize('update', Customer::class);
             // $this->authorize('update',  $item);
             $params = [
                 'item' => $item
@@ -74,6 +76,7 @@ public function edit($id)
             $item->name = $request->name;
             $item->email = $request->email;
             $item->phone = $request->phone;
+            $item->password = Hash::make($request->password);
             $item->save();
             Log::info('Customer updated', ['id' => $item->id]);
             return redirect()->route('customers.index')->with('successMessage','Cập nhật thành công');

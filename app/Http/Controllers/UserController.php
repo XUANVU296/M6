@@ -84,7 +84,7 @@ class UserController extends Controller
         // $user->address = $request->address;
         $user->phone = $request->phone;
         // $user->birthday = $request->birthday;
-        // $user->position = $request->position;
+        $user->gender = $request->gender;
         $user->group_id = $request->group_id;
 
         $fieldName = 'image';
@@ -102,9 +102,9 @@ class UserController extends Controller
         // Lưu thông tin người dùng
         $user->save();
 
-        return redirect()->route('user.index')->with('successMessage','Đăng ký tài khoản thành công');
+        return redirect()->route('users.index')->with('successMessage','Đăng ký tài khoản thành công');
 
-        return redirect()->route('user.index')->with('successMessage', 'Thêm thành công');
+        return redirect()->route('users.index')->with('successMessage', 'Thêm thành công');
     } catch (\Exception $e) {
         // Xử lý ngoại lệ
         return back()->withError($e->getMessage());
@@ -124,7 +124,7 @@ class UserController extends Controller
 
 
         // $productshow-> show();
-        return view('user.profile', $param);
+        return view('users.profile', $param);
     }
 
     public function edit($id)
@@ -184,8 +184,7 @@ public function update(UpdateUserRequest $request, $id)
             'message' => 'Chỉnh Sửa Thành Công!',
             'alert-type' => 'success'
         ];
-        return redirect()->route('user.index')->with('successMessage','Cập nhật thành công');
-        return redirect()->route('users.index')->with($successMessage);
+        return redirect()->route('users.index')->with('successMessage','Cập nhật thành công');
     } catch (\Exception $e) {
         // Xử lý ngoại lệ
         return back()->withError($e->getMessage());
@@ -275,18 +274,18 @@ public function update(UpdateUserRequest $request, $id)
      */
     public function destroy($id)
     {
-      $this->authorize('forceDelete', Product::class);
-        $notification = [
-            'sainhap' => '!',
-        ];
-
-        $user = User::find($id);
-        if($user->group->name!='Super Admin'){
+        // Tìm người dùng cần xóa
+        $user = User::findOrFail($id);
+    
+        // Kiểm tra nếu người dùng không phải là 'Super Admin'
+        if ($user->group->name !== 'Super Admin') {
+            // Xóa người dùng
             $user->delete();
+            return redirect()->route('users.index')->with('successMessage', 'Xóa thành công');
         }
-        else{
-            return redirect()->route('user.index')->with('successMessage','Xóa thành công');
-            // return dd(__METHOD__);
-        }
+    
+        // Nếu người dùng là 'Super Admin', chuyển hướng về trang danh sách người dùng
+        return redirect()->route('users.index')->with('errorMessage', 'Không thể xóa Super Admin');
     }
+    
 }
