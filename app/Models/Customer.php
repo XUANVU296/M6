@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Customer extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
     protected $table = 'customers';
+
     protected $fillable = [
         'name',
         'description',
@@ -16,7 +20,23 @@ class Customer extends Model
         'phone',
         'password'
     ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     public function orders() {
-        $this->hasMany(Order::class, 'customer_id', 'id');
-}
+        return $this->hasMany(Order::class, 'customer_id', 'id');
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

@@ -19,9 +19,6 @@ class UserSeeder extends Seeder
         $item->password = Hash::make('123456');
         $item->image ='a26.jpg';
         $item->group_id ='10';
-        // $item->phone ='013456789';
-
-        // $item->image ='thang.ipg';
         $item->save();
     }
 }

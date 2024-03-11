@@ -63,6 +63,14 @@
                                 @error('phone')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+                                <div class="form-group">
+                                    <label for="exampleInputPhone1">Mật khẩu</label>
+                                    <input type="text" class="form-control" id="exampleInputPhone1" name="password"
+                                        value="{{ $item->password }}">
+                                </div>
+                                @error('password')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <button type="submit" class="btn btn-secondary me-2">Cập nhật</button>
                                 <a href="{{ route('customers.index') }}" class="btn btn-light">Trở về</a>
                             </form>
