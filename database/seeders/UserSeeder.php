@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         $item = new User();
         $item->name = "Lê Chí Bảo";
-        $item->email = "lechibaovlog@gmail.com";
+        $item->email = "lechibaovlog123@gmail.com";
         $item->password = Hash::make('123456');
         $item->image ='a26.jpg';
         $item->group_id ='10';

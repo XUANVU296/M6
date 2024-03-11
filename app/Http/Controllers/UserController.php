@@ -49,7 +49,6 @@ class UserController extends Controller
      */
     public function create()
 {
-    try {
         $this->authorize('create', User::class);
 
         // Lấy danh sách các nhóm
@@ -62,10 +61,7 @@ class UserController extends Controller
 
         // Hiển thị view
         return view('admin.users.add', $param);
-    } catch (\Exception $e) {
-        // Xử lý ngoại lệ
-        return back()->withError($e->getMessage());
-    }
+
 }
 
     /**
@@ -129,7 +125,6 @@ class UserController extends Controller
 
     public function edit($id)
 {
-    try {
         $this->authorize('view', User::class);
 
         // Lấy thông tin người dùng cần chỉnh sửa
@@ -146,10 +141,7 @@ class UserController extends Controller
 
         // Hiển thị view
         return view('admin.users.edit', $param);
-    } catch (\Exception $e) {
-        // Xử lý ngoại lệ
-        return back()->withError($e->getMessage());
-    }
+
 }
 
 

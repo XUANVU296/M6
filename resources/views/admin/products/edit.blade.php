@@ -1,14 +1,7 @@
 @extends('admin')
 
 @section('content')
-    <style>
-        .center-form {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
+
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
@@ -22,7 +15,7 @@
                                 @method('PUT')
                                 <div class="mb-3">
                                     <label class="form-label">Ảnh</label>
-                                    <input type="file" name="image" class="form-control" style="width: 750px;"><br>
+                                    <input type="file" name="image" class="form-control" style="width: 1000px;"><br>
                                     @if ($item->image)
                                         <img src="{{ asset($item->image) }}" alt="Ảnh cũ" style="width:10%; height:50%;">
                                     @endif
@@ -31,7 +24,7 @@
                                     <label for="exampleInputUsername1">Tên</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1"
                                         placeholder="Nhập tên" name="name" value="{{ $item->name }}"
-                                        style="width: 750px;;">
+                                        style="width: 1000px;;">
                                     @error('name')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -39,7 +32,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Mô tả</label>
-                                    <textarea class="form-control" id="description" name="description" style="width: 750px;">{{ $item->description }}</textarea>
+                                    <textarea class="form-control" id="description" name="description" style="width: 1000px;">{{ $item->description }}</textarea>
                                     @error('description')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -48,7 +41,7 @@
                                     <label for="exampleInputUsername1">Giá</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1"
                                         placeholder="Nhập giá" name="price" value="{{ $item->price }}"
-                                        style="width: 750px;;">
+                                        style="width: 1000px;;">
                                     @error('price')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -58,7 +51,7 @@
                                     <label for="exampleInputUsername1">Số lượng</label>
                                     <input type="text" class="form-control" id="exampleInputUsername1"
                                         placeholder="Nhập sô lượng" name="quantity" value="{{ $item->quantity }}"
-                                        style="width: 750px;;">
+                                        style="width: 1000px;;">
                                     @error('quantity')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -66,7 +59,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label mb-1" for="status-org">Trạng thái</label>
-                                    <select class="form-control" name="status" style="width: 750px;;">
+                                    <select class="form-control" name="status" style="width: 1000px;;">
                                         <option value="Còn" {{ $item->status == 'Còn' ? 'selected' : '' }}>Còn</option>
                                         <option value="Hết" {{ $item->status == 'Hết' ? 'selected' : '' }}>Hết</option>
                                     </select>
@@ -77,7 +70,7 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label">Thể loại</label>
-                                        <select name="category_id" class="form-select" style="width: 750px;;">
+                                        <select name="category_id" class="form-select" style="width: 1000px;;">
                                             <option value="">Vui lòng chọn</option>
                                             @foreach ($categories as $index => $categorie)
                                                 <option value="{{ $categorie->id }}"
