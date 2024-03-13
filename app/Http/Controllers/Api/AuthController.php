@@ -55,17 +55,19 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Customer created successfully',
+            'message' => 'Đăng ký thành công',
             'customer' => $customer
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::guard('customers')->logout();
-        return response()->json([
-            'message' => 'Successfully logged out',
-        ]);
+        $customer = $request->user();
+        if ($customer) {
+            $customer->tokens()->delete();
+            Auth::guard('customers')->logout();
+        }
+        return response()->json(['message' => 'Đăng xuất thành công']);
     }
 
     public function refresh()
