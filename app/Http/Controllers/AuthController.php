@@ -35,7 +35,7 @@ class AuthController extends Controller
                 'password' => 'required',
             ], $messages);
             $data = $request->only('email', 'password');
-            if (Auth::attempt($data)) {
+            if (Auth::guard('web')->attempt($data)) {
                 $previousUrl = session()->pull('previous_url', '/dashboard');
                 if ($previousUrl === route('/login-admin')) {
                     return redirect()->route('categories.index')->with('successMessage', 'Đăng nhập thành công');
