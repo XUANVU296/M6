@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'customers', // Đổi 'users' thành 'customers'
     ],
 
     /*
@@ -38,7 +38,15 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'customers', // Đổi 'users' thành 'customers'
+        ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'customers', // Đổi 'users' thành 'customers'
+        ],
+        'customers' => [
+            'driver' => 'jwt',
+            'provider' => 'customers',
         ],
     ],
 
@@ -60,15 +68,10 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'customers' => [ // Đổi 'users' thành 'customers'
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Customer::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -91,8 +94,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'customers' => [ // Đổi 'users' thành 'customers'
+            'provider' => 'customers',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
