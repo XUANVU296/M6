@@ -58,6 +58,7 @@
             });
         @endif
     </script>
+    {{-- <?php dd($item); ?> --}}
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
@@ -65,21 +66,42 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Xem chi tiết đơn hàng</h4>
-                            <div class="form-group">
-                                <label for="total_amount">Tên sản phẩm:</label>
-                                <input type="text" class="form-control" id="total_amount"
-                                    value="{{ $item->products->name }}" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="order_status">Số lượng sản phẩm:</label>
-                                <input type="text" class="form-control" id="order_status"
-                                    value="{{ $item->quantity }} cái" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="order_status">Tổng giá đơn hàng:</label>
-                                <input type="text" class="form-control" id="order_status"
-                                    value="{{ $item->total_amount }} 000 VNĐ" readonly>
-                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng sản phẩm</th>
+                                        <th>Tổng giá sản phẩm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($item->order_detail as $orderDetail)
+                                        <tr>
+                                            <td class="w-50">
+                                                <div class="form-group">
+                                                    {{-- <label for="total_amount">Tên sản phẩm:</label> --}}
+                                                    <input type="text" class="form-control" id="total_amount"
+                                                        value="{{ $orderDetail->product->name }}" readonly>
+                                                </div>
+                                            </td>
+                                            <td class="w-25">
+                                                <div class="form-group">
+                                                    {{-- <label for="order_status">Số lượng sản phẩm:</label> --}}
+                                                    <input type="text" class="form-control" id="order_status"
+                                                        value="{{ $orderDetail->quantity }} cái" readonly>
+                                                </div>
+                                            </td>
+                                            <td class="w-25">
+                                                <div class="form-group">
+                                                    {{-- <label for="order_status">Tổng giá đơn hàng:</label> --}}
+                                                    <input type="text" class="form-control" id="order_status"
+                                                        value="{{ $orderDetail->price }} 000 VNĐ" readonly>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                             <form id="update-status-form" action="{{ route('orders.update.status', $item->id) }}"
                                 method="POST">
                                 @csrf

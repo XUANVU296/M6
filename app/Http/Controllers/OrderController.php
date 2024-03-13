@@ -98,6 +98,7 @@ public function store(StoreOrderRequest $request)
     public function destroy($id) {
         try {
             // $this->authorize('delete', Order::class);
+            Order_detail::where('order_id', $id)->delete();
             $item = Order::findOrFail($id);
             // $this->authorize('delete', $item);
             $item->forceDelete(); // Xóa vĩnh viễn mục từ thùng rác
@@ -112,7 +113,7 @@ public function store(StoreOrderRequest $request)
     }
     public function show($id) {
         try {
-            $item = Order::with('products')->findOrFail($id);
+            $item = Order::with('order_detail.product')->findOrFail($id);
             return view('admin.orders.show', compact('item'));
         } catch (\Exception $exception) {
             return redirect()->back()->with('errorMessage', 'Không tìm thấy đơn hàng');
@@ -121,6 +122,7 @@ public function store(StoreOrderRequest $request)
     
     public function delete($id) {
         try {
+            Order_detail::where('order_id', $id)->delete();
             $item = Order::findOrFail($id);
             $item->delete();
             return redirect()->route('orders.index')->with('successMessage','Xóa đơn hàng thành công');
@@ -128,6 +130,7 @@ public function store(StoreOrderRequest $request)
             return redirect()->back()->with('errorMessage', 'Đã xảy ra lỗi khi xóa đơn hàng. Vui lòng thử lại sau');
         }
     }
+    
     
     public function updateStatus(Request $request, $id) {
         try {

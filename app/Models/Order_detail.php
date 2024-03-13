@@ -17,15 +17,10 @@ class Order_detail extends Model
     ];
     public function order()
     {
-        return $this->belongsTo(Order::class);
-    }
-
-    // Định nghĩa mối quan hệ thông qua bảng Order đến bảng Customer
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class, 'order_id', 'id');
+        return $this->belongsTo(Order::class,'order_id', 'id');
     }
     public function product() {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+     
 }

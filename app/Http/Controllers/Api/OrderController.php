@@ -11,6 +11,7 @@ use App\Models\Order_detail;
 use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -60,7 +61,7 @@ class OrderController extends Controller
         }
         $order = new Order();
         $order->customer_id = $customer_id;
-        $order->date = date("Y-m-d");
+        $order->date = Carbon::now()->format('Y-m-d H:i:s');
         $order->total_amount = $total_amount;
         $order->save();
         foreach ($request->cart as $key => $cart) {

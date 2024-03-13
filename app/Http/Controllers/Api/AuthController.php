@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:customers', ['except' => ['login', 'register']]);
     }
 
     public function login(Request $request)
@@ -22,7 +22,7 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
+        $token = Auth::guard('customers')->attempt($credentials);
 
         if (!$token) {
             return response()->json([
@@ -30,7 +30,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
+        $user = Auth::guard('customers')->user();
         return response()->json([
             'user' => $user,
             'authorization' => [
@@ -64,7 +64,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('customers')->logout();
         return response()->json([
             'message' => 'Successfully logged out',
         ]);
@@ -73,9 +73,9 @@ class AuthController extends Controller
     public function refresh()
     {
         return response()->json([
-            'user' => Auth::user(),
+            'user' => Auth::guard('customers')->user(),
             'authorisation' => [
-                'token' => Auth::refresh(),
+                'token' => Auth::guard('customers')->refresh(),
                 'type' => 'bearer',
             ]
         ]);

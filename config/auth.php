@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'customers', // Đổi 'users' thành 'customers'
         ],
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users', // Đổi 'users' thành 'customers'
+        ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'customers', // Đổi 'users' thành 'customers'
@@ -72,6 +76,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Customer::class,
         ],
+        'users' => [ // Đổi 'users' thành 'customers'
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
     ],
 
     /*
@@ -96,6 +104,12 @@ return [
     'passwords' => [
         'customers' => [ // Đổi 'users' thành 'customers'
             'provider' => 'customers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'users' => [ // Đổi 'users' thành 'customers'
+            'provider' => 'users',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
