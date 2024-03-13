@@ -64,12 +64,15 @@ class AuthController extends Controller
 
     public function logout()
     {
+        $user = Auth::guard('customers')->user();
+        if ($user) {
+            $user->tokens()->where('name', $user->email)->delete();
+        }
         Auth::guard('customers')->logout();
         return response()->json([
             'message' => 'Successfully logged out',
         ]);
     }
-
     public function refresh()
     {
         return response()->json([
