@@ -62,16 +62,20 @@ class AuthController extends Controller
     }
 
     public function logout()
-    {
-        $user = Auth::guard('customers')->user();
-        if ($user) {
-            $user->tokens()->where('name', $user->email)->delete();
-        }
+{
+    $user = Auth::guard('customers')->user();
+    if ($user) {
+        $user->tokens()->delete();
         Auth::guard('customers')->logout();
         return response()->json([
             'message' => 'Successfully logged out',
         ]);
+    } else {
+        return response()->json([
+            'message' => 'User not found',
+        ], 404);
     }
+}
     public function refresh()
     {
         return response()->json([
