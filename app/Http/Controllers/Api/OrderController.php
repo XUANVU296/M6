@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\Order_detail;
 use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\Mail;
