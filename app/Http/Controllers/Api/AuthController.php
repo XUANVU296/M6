@@ -16,29 +16,28 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('email', 'password');
-        $token = Auth::guard('customers')->attempt($credentials);
-
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
-        $user = Auth::guard('customers')->user();
+{
+    $request->validate([
+        'email' => 'required|string|email',
+        'password' => 'required|string',
+    ]);
+    $credentials = $request->only('email', 'password');
+    
+    if (!$token = Auth::guard('customers')->attempt($credentials)) {
         return response()->json([
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+            'message' => 'Unauthorized',
+        ], 401);
     }
+
+    $user = Auth::guard('customers')->user();
+    return response()->json([
+        'user' => $user,
+        'authorization' => [
+            'token' => $token,
+            'type' => 'bearer',
+        ]
+    ]);
+}
 
     public function register(Request $request)
     {

@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Customer extends Authenticatable implements AuthenticatableContract
+class Customer extends Authenticatable implements AuthenticatableContract, JWTSubject
 {
     use HasFactory;
 
@@ -63,5 +64,31 @@ class Customer extends Authenticatable implements AuthenticatableContract
     public function getRememberTokenName()
     {
         return '';
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'email' => $this->email,
+            'phone' => $this->phone
+        ];
     }
 }
