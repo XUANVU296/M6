@@ -57,7 +57,6 @@ class OrderController extends Controller
             $price = Product::find($cart['product_id'])->price;
             $total_amount += $price * $cart['quantity'];
         }
-     
         $order = new Order();
         $order->customer_id = $customer_id;
         $order->date = date("Y-m-d");
