@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class Customer extends Authenticatable implements JWTSubject
+class Customer extends Authenticatable implements AuthenticatableContract
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     protected $table = 'customers';
 
@@ -21,22 +20,48 @@ class Customer extends Authenticatable implements JWTSubject
         'password'
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
-    public function getJWTIdentifier()
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
     {
-        return $this->getKey();
+        return 'id';
     }
 
-    public function getJWTCustomClaims()
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
     {
-        return [];
+        return $this->getAttribute($this->getAuthIdentifierName());
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return '';
     }
 }

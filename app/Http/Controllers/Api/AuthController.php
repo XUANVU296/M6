@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:customers', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function login(Request $request)
@@ -22,17 +22,17 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('email', 'password');
-        $token = Auth::guard('customers')->attempt($credentials);
-        
+        $token = Auth::attempt($credentials);
+
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 401);
         }
 
-        $customer = Auth::guard('customers')->user();
+        $user = Auth::user();
         return response()->json([
-            'customer' => $customer,
+            'user' => $user,
             'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
@@ -51,31 +51,31 @@ class AuthController extends Controller
         $customer = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
+            'description' => $request->description,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
         return response()->json([
-            'message' => 'Đăng ký thành công',
+            'message' => 'Customer created successfully',
             'customer' => $customer
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $customer = $request->user();
-        if ($customer) {
-            $customer->tokens()->delete();
-            Auth::guard('customers')->logout();
-        }
-        return response()->json(['message' => 'Đăng xuất thành công']);
+        Auth::logout();
+        return response()->json([
+            'message' => 'Successfully logged out',
+        ]);
     }
 
     public function refresh()
     {
         return response()->json([
-            'customer' => Auth::guard('customers')->user(),
-            'authorization' => [
-                'token' => Auth::guard('customers')->refresh(),
+            'user' => Auth::user(),
+            'authorisation' => [
+                'token' => Auth::refresh(),
                 'type' => 'bearer',
             ]
         ]);
